@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime Cine Visuals — CGI, VFX &amp; Motion Design Studio</title>
+<meta name="description" content="Prime Cine Visuals is a real-time production studio crafting CGI commercials, product visualization and visual effects for brands that refuse to look ordinary.">
+<meta name="theme-color" content="#050505">
+
+<!-- Preconnect for font performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a href="#home" class="skip-link">Skip to content</a>
+
+<!-- ============================================================
+     LOADING SCREEN
+============================================================= -->
+<div id="loader" role="status" aria-live="polite">
+  <div class="loader-inner">
+    <div class="loader-mark">PRIME<span>·</span>CINE</div>
+    <div class="loader-ring" aria-hidden="true"></div>
+    <div class="loader-pct" id="loaderPct">LOADING 0%</div>
+  </div>
+</div>
+
+<!-- Custom cursor (decorative) -->
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+<!-- Scroll progress -->
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<!-- Ambient background layers -->
+<div class="ambient" aria-hidden="true">
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="blob blob-c"></div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+<div class="particles" id="particles" aria-hidden="true"></div>
+
+<!-- ============================================================
+     NAVIGATION
+============================================================= -->
+<header id="siteHeader">
+  <a href="#home" class="logo"><span class="logo-mark" aria-hidden="true"></span>PRIME <span>CINE</span> VISUALS</a>
+  <nav aria-label="Primary">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="nav-link">Home</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#services" class="nav-link">Services</a></li>
+      <li><a href="#work" class="nav-link">Portfolio</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<main>
+  <!-- ============================================================
+       HERO
+  ============================================================= -->
+  <section class="hero" id="home">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Creating Digital Experiences</p>
+      <h1 class="hero-title">PRIME <span class="accent-word">CINE</span> VISUALS</h1>
+      <p class="hero-subtitle">CGI · VFX · Motion Design</p>
+      <p class="hero-desc">We transform imagination into cinematic experiences through real-time graphics, product visualization and immersive storytelling.</p>
+      <div class="hero-actions">
+        <a href="#work" class="btn btn-primary magnetic">Explore Our Work</a>
+        <a href="#contact" class="btn btn-ghost magnetic">Contact Us</a>
+      </div>
+    </div>
+    <div class="scroll-indicator" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="scroll-mouse"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT
+  ============================================================= -->
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <div class="about-left reveal">
+        <span class="eyebrow">About the studio</span>
+        <h2 class="about-title">Where <span class="hl">Creativity</span><br>Meets Technology</h2>
+      </div>
+      <div class="about-right reveal reveal-delay-2">
+        <p>Prime Cine Visuals is a real-time production studio built for teams who need their ideas to look inevitable. We operate at the intersection of cinematic craft and technical execution — bringing the same rigor to every frame as we do to a thirty-second commercial.</p>
+        <p>Every project moves through the same disciplined pipeline: concept, blockout, lighting, and final polish, using real-time engines to compress timelines without compressing quality.</p>
+        <ul class="capability-list">
+          <li>3D Product Animation</li>
+          <li>CGI Commercials</li>
+          <li>Visual Effects</li>
+          <li>Interactive Experiences</li>
+          <li>Real-Time Pipelines</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVICES
+  ============================================================= -->
+  <section class="services" id="services">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">What we do</span>
+          <h2 class="section-title">Capabilities built for <span class="hl">production</span></h2>
+        </div>
+        <p class="section-note">Three disciplines, one pipeline — from first prototype to final render.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="glass-card reveal reveal-delay-1">
+          <span class="card-icon" aria-hidden="true">📦</span>
+          <h3 class="card-title">3D Animation</h3>
+          <p class="card-text">High-quality product advertisements, product visualization, commercials and cinematic renders.</p>
+          <a href="#work" class="card-link">View Projects →</a>
+        </div>
+
+        <div class="glass-card card-soon reveal reveal-delay-2">
+          <span class="soon-badge">Launching Soon</span>
+          <span class="card-icon" aria-hidden="true">🎬</span>
+          <h3 class="card-title">Visual Effects</h3>
+          <p class="card-text">Full VFX pipeline — coming soon.</p>
+          <span class="card-link disabled" aria-disabled="true">Learn More →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURED WORK
+  ============================================================= -->
+<section class="work" id="work">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">Selected work</span>
+        <h2 class="section-title">Featured <span class="hl">Projects</span></h2>
+      </div>
+      <p class="section-note">A cross-section of commercials and cinematic renders shipped by the studio.</p>
+    </div>
+
+    <div class="work-grid">
+      <article class="work-card reveal reveal-delay-1">
+        <video
+          class="work-video"
+          muted
+          preload="metadata"
+          playsinline
+          poster="perfume-ad-poster.jpg"
+          width="640"
+          height="360"
+        >
+          <source src="perfume-ad.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+          Your browser does not support HTML video.
+        </video>
+        <div class="video-fallback">Video unavailable</div>
+        <div class="work-overlay"></div>
+        <div class="work-border"></div>
+        <button class="work-sound-btn" aria-label="Toggle sound" type="button">
+          <svg class="icon-mute" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M16.5 12A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4Zm-11-4v8h4l5 5V3l-5 5h-4Z"/></svg>
+          <svg class="icon-unmute" viewBox="0 0 24 24" width="16" height="16" style="display:none"><path fill="currentColor" d="M16.5 12A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4ZM19 12a7 7 0 0 1-2.05 4.95l1.06 1.06A8.5 8.5 0 0 0 20.5 12a8.5 8.5 0 0 0-2.49-6.01l-1.06 1.06A7 7 0 0 1 19 12ZM5.5 8v8h4l5 5V3l-5 5h-4Z"/></svg>
+        </button>
+        <div class="work-info">
+          <span class="work-cat">Product Animation</span>
+          <h3 class="work-title">Perfume Ad</h3>
+        </div>
+      </article>
+
+      <article class="work-card reveal reveal-delay-2">
+        <video
+          class="work-video"
+          muted
+          preload="metadata"
+          playsinline
+          poster="cinematic-car-poster.jpg"
+          width="640"
+          height="360"
+        >
+          <source src="cinematic-car-showreel.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+          Your browser does not support HTML video.
+        </video>
+        <div class="video-fallback">Video unavailable</div>
+        <div class="work-overlay"></div>
+        <div class="work-border"></div>
+        <button class="work-sound-btn" aria-label="Toggle sound" type="button">
+          <svg class="icon-mute" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M16.5 12A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4Zm-11-4v8h4l5 5V3l-5 5h-4Z"/></svg>
+          <svg class="icon-unmute" viewBox="0 0 24 24" width="16" height="16" style="display:none"><path fill="currentColor" d="M16.5 12A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4ZM19 12a7 7 0 0 1-2.05 4.95l1.06 1.06A8.5 8.5 0 0 0 20.5 12a8.5 8.5 0 0 0-2.49-6.01l-1.06 1.06A7 7 0 0 1 19 12ZM5.5 8v8h4l5 5V3l-5 5h-4Z"/></svg>
+        </button>
+        <div class="work-info">
+          <span class="work-cat">CGI Showreel</span>
+          <h3 class="work-title">Cinematic Car</h3>
+        </div>
+      </article>
+
+      <article class="work-card reveal reveal-delay-3">
+        <video
+          class="work-video"
+          muted
+          preload="metadata"
+          playsinline
+          poster="film-trailer-poster.jpg"
+          width="640"
+          height="360"
+        >
+          <source src="short-film-trailer.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+          Your browser does not support HTML video.
+        </video>
+        <div class="video-fallback">Video unavailable</div>
+        <div class="work-overlay"></div>
+        <div class="work-border"></div>
+        <button class="work-sound-btn" aria-label="Toggle sound" type="button">
+          <svg class="icon-mute" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M16.5 12A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4Zm-11-4v8h4l5 5V3l-5 5h-4Z"/></svg>
+          <svg class="icon-unmute" viewBox="0 0 24 24" width="16" height="16" style="display:none"><path fill="currentColor" d="M16.5 12A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4ZM19 12a7 7 0 0 1-2.05 4.95l1.06 1.06A8.5 8.5 0 0 0 20.5 12a8.5 8.5 0 0 0-2.49-6.01l-1.06 1.06A7 7 0 0 1 19 12ZM5.5 8v8h4l5 5V3l-5 5h-4Z"/></svg>
+        </button>
+        <div class="work-info">
+          <span class="work-cat">Short Film</span>
+          <h3 class="work-title">Film Trailer</h3>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+  <!-- ============================================================
+       WHY CHOOSE US
+  ============================================================= -->
+  <section class="why" id="why">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Why Prime Cine</span>
+          <h2 class="section-title">Built for <span class="hl">craft</span>, run for <span class="hl">speed</span></h2>
+        </div>
+      </div>
+      <div class="why-grid">
+        <div class="stat-card reveal reveal-delay-1">
+          <div class="stat-num">01</div>
+          <h3 class="stat-title">Creative<br>Excellence</h3>
+          <div class="stat-bar" aria-hidden="true"></div>
+        </div>
+        <div class="stat-card reveal reveal-delay-2">
+          <div class="stat-num">02</div>
+          <h3 class="stat-title">Real-time<br>Production</h3>
+          <div class="stat-bar" aria-hidden="true"></div>
+        </div>
+        <div class="stat-card reveal reveal-delay-3">
+          <div class="stat-num">03</div>
+          <h3 class="stat-title">Cinematic<br>Quality</h3>
+          <div class="stat-bar" aria-hidden="true"></div>
+        </div>
+        <div class="stat-card reveal reveal-delay-4">
+          <div class="stat-num">04</div>
+          <h3 class="stat-title">Passion<br>Driven</h3>
+          <div class="stat-bar" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CALL TO ACTION
+  ============================================================= -->
+  <section class="cta" id="contact">
+    <div class="wrap">
+      <p class="eyebrow center reveal">Let's talk</p>
+      <h2 class="cta-title reveal reveal-delay-1">Let's Build Something <span class="hl">Extraordinary</span></h2>
+      <p class="cta-text reveal reveal-delay-2">Whether it's a cinematic product advertisement or visual storytelling, we bring ideas to life.</p>
+      <div class="cta-actions reveal reveal-delay-3">
+        <a href="mailto:primecinevisuals@gmail.com" class="btn btn-primary magnetic email-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M4 4h16v16H4V4z"/>
+            <path d="M4 6l8 7 8-7"/>
+          </svg>
+          <span>primecinevisuals@gmail.com</span>
+        </a>
+        <button class="btn btn-ghost magnetic copy-email" data-email="primecinevisuals@gmail.com" type="button">
+          <span class="copy-label">Copy Email</span>
+        </button>
+        <a href="#work" class="btn btn-ghost magnetic">View Portfolio</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============================================================
+     FOOTER
+============================================================= -->
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">PRIME <span>CINE</span> VISUALS</div>
+        <p class="footer-desc">A real-time production studio crafting CGI advertisements and visual effects for brands that refuse to look ordinary.</p>
+        <div class="social-row">
+          <a href="#" class="social-icon" aria-label="Instagram">IG</a>
+          <a href="#" class="social-icon" aria-label="X / Twitter">X</a>
+          <a href="#" class="social-icon" aria-label="YouTube">YT</a>
+          <a href="#" class="social-icon" aria-label="LinkedIn">IN</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#work">Portfolio</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#services">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 PRIME CINE VISUALS — All Rights Reserved.</span>
+      <span>Designed &amp; Built In-House</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js" defer></script>
+</body>
+</html>
