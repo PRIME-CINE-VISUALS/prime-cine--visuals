@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Lab — Prime Cine Visuals</title>
+<meta name="description" content="The Prime Cine Visuals 3D Lab — real-time experiments in lighting, materials, motion and FX ahead of production.">
+<meta name="theme-color" content="#050505">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+
+<a href="#lab-home" class="skip-link">Skip to content</a>
+
+<!-- LOADING SCREEN -->
+<div id="loader" role="status" aria-live="polite">
+  <div class="loader-inner">
+    <div class="loader-mark">PRIME<span>·</span>CINE</div>
+    <div class="loader-ring" aria-hidden="true"></div>
+    <div class="loader-pct" id="loaderPct">LOADING 0%</div>
+  </div>
+</div>
+
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<div class="ambient" aria-hidden="true">
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="blob blob-c"></div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+<div class="particles" id="particles" aria-hidden="true"></div>
+
+<!-- NAVIGATION -->
+<header id="siteHeader">
+  <a href="index.html" class="logo"><span class="logo-mark" aria-hidden="true"></span>PRIME <span>CINE</span> VISUALS</a>
+  <nav aria-label="Primary">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="index.html#about" class="nav-link">About</a></li>
+      <li><a href="index.html#services" class="nav-link">Services</a></li>
+      <li><a href="index.html#work" class="nav-link">Portfolio</a></li>
+      <li><a href="lab.html" class="nav-link active">3D Lab</a></li>
+      <li><a href="challenges.html" class="nav-link">Challenges</a></li>
+      <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- LAB HERO -->
+  <section class="lab-hero" id="lab-home">
+    <div class="wrap lab-hero-grid">
+      <div class="reveal">
+        <span class="eyebrow">Real-time R&amp;D</span>
+        <h1 class="section-title lab-hero-title">The 3D <span class="hl">Lab</span></h1>
+        <p class="lab-hero-desc">Before a technique ships in a client commercial, it gets stress-tested here. The Lab is a running log of renders and studies — lighting setups, materials, motion and FX — captured as stills straight out of the pipeline.</p>
+        <div class="hero-actions">
+          <a href="#lab-modules" class="btn btn-primary magnetic">View Modules</a>
+          <a href="challenges.html" class="btn btn-ghost magnetic">Try a Challenge</a>
+        </div>
+      </div>
+      <div class="stage-3d reveal reveal-delay-2" aria-hidden="true">
+        <div class="stage-inner">
+          <div class="stage-panel stage-panel--1"><div><span>01</span>Lighting</div></div>
+          <div class="stage-panel stage-panel--2"><div><span>02</span>Materials</div></div>
+          <div class="stage-panel stage-panel--3"><div><span>03</span>Motion</div></div>
+          <div class="stage-panel stage-panel--4"><div><span>04</span>FX</div></div>
+          <div class="stage-panel stage-panel--5"><div><span>05</span>Scan</div></div>
+          <div class="stage-panel stage-panel--6"><div><span>06</span>Shader</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAB MODULES -->
+  <section class="lab-modules services" id="lab-modules">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Active experiments</span>
+          <h2 class="section-title">Lab <span class="hl">Modules</span></h2>
+        </div>
+        <p class="section-note">Six ongoing tracks — each one feeds directly into production pipelines.</p>
+      </div>
+
+      <!--
+        Each card below has a .card-media placeholder box.
+        To add a real photo of the 3D model/render, replace e.g.:
+          <div class="card-media placeholder">Add real-time lighting render here</div>
+        with:
+          <div class="card-media"><img src="lab-assets/lighting-01.jpg" alt="Real-time lighting render" loading="lazy"></div>
+        (drop image files into a "lab-assets" folder next to this page)
+      -->
+      <div class="services-grid">
+        <div class="glass-card reveal reveal-delay-1">
+          <div class="card-media placeholder">Add real-time lighting render here</div>
+      <span class="card-icon" aria-hidden="true">💡</span>
+          <h3 class="card-title">Real-Time Lighting</h3>
+          <p class="card-text">HDRI rigs and dynamic light studies built for speed without sacrificing the final-frame look.</p>
+          <a href="challenges.html" class="card-link">Related Challenges →</a>
+        </div>
+        <div class="glass-card reveal reveal-delay-2">
+          <div class="card-media placeholder">Add procedural material render here</div>
+      <span class="card-icon" aria-hidden="true">🧪</span>
+          <h3 class="card-title">Procedural Materials</h3>
+          <p class="card-text">Shader-driven surfaces — metal, glass, fabric, skin — built to hold up under any angle or light.</p>
+          <a href="challenges.html" class="card-link">Related Challenges →</a>
+        </div>
+        <div class="glass-card reveal reveal-delay-3">
+          <div class="card-media placeholder">Add camera and motion study frame here</div>
+      <span class="card-icon" aria-hidden="true">🎞️</span>
+          <h3 class="card-title">Motion &amp; Camera</h3>
+          <p class="card-text">Procedural camera rigs and motion studies for commercials that need to feel alive, not animated.</p>
+          <a href="challenges.html" class="card-link">Related Challenges →</a>
+        </div>
+        <div class="glass-card reveal reveal-delay-1">
+          <div class="card-media placeholder">Add particle and fx sandbox render here</div>
+      <span class="card-icon" aria-hidden="true">✨</span>
+          <h3 class="card-title">Particle &amp; FX Sandbox</h3>
+          <p class="card-text">Smoke, dust, liquid and destruction sims tested in isolation before they meet a hero shot.</p>
+          <a href="challenges.html" class="card-link">Related Challenges →</a>
+        </div>
+        <div class="glass-card reveal reveal-delay-2">
+          <div class="card-media placeholder">Add photogrammetry scan render here</div>
+      <span class="card-icon" aria-hidden="true">📡</span>
+          <h3 class="card-title">Scan &amp; Photogrammetry</h3>
+          <p class="card-text">Real-world capture pipelines feeding accurate geometry and texture back into the engine.</p>
+          <a href="challenges.html" class="card-link">Related Challenges →</a>
+        </div>
+        <div class="glass-card card-soon reveal reveal-delay-3">
+          <span class="soon-badge">Launching Soon</span>
+          <span class="card-icon" aria-hidden="true">🧬</span>
+          <h3 class="card-title">Shader Playground</h3>
+          <p class="card-text">A live, in-browser shader sandbox — coming soon.</p>
+          <span class="card-link disabled" aria-disabled="true">Learn More →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="wrap">
+      <p class="eyebrow center reveal">Ready to build?</p>
+      <h2 class="cta-title reveal reveal-delay-1">Put it to the <span class="hl">Test</span></h2>
+      <p class="cta-text reveal reveal-delay-2">Every module here has a matching challenge. Pick one and see how it holds up.</p>
+      <div class="cta-actions reveal reveal-delay-3">
+        <a href="challenges.html" class="btn btn-primary magnetic">Browse Challenges</a>
+        <a href="index.html#contact" class="btn btn-ghost magnetic">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">PRIME <span>CINE</span> VISUALS</div>
+        <p class="footer-desc">A real-time production studio crafting CGI advertisements and visual effects for brands that refuse to look ordinary.</p>
+        <div class="social-row">
+          <a href="#" class="social-icon" aria-label="Instagram">IG</a>
+          <a href="#" class="social-icon" aria-label="X / Twitter">X</a>
+          <a href="#" class="social-icon" aria-label="YouTube">YT</a>
+          <a href="#" class="social-icon" aria-label="LinkedIn">IN</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="lab.html">3D Lab</a></li>
+          <li><a href="challenges.html">Challenges</a></li>
+          <li><a href="index.html#work">Portfolio</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="index.html#services">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 PRIME CINE VISUALS — All Rights Reserved.</span>
+      <span>Designed &amp; Built In-House</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js" defer></script>
+<script src="lab.js" defer></script>
+</body>
+</html>
