@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services &amp; Pricing — Prime Cine Visuals</title>
+<meta name="description" content="CGI commercials, product visualization and VFX packages from Prime Cine Visuals — request a quote for your next project.">
+<meta name="theme-color" content="#050505">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="services.css">
+</head>
+<body>
+
+<a href="#services-home" class="skip-link">Skip to content</a>
+
+<!-- LOADING SCREEN -->
+<div id="loader" role="status" aria-live="polite">
+  <div class="loader-inner">
+    <div class="loader-mark">PRIME<span>·</span>CINE</div>
+    <div class="loader-ring" aria-hidden="true"></div>
+    <div class="loader-pct" id="loaderPct">LOADING 0%</div>
+  </div>
+</div>
+
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<div class="ambient" aria-hidden="true">
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="blob blob-c"></div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+<div class="particles" id="particles" aria-hidden="true"></div>
+
+<!-- NAVIGATION -->
+<header id="siteHeader">
+  <a href="index.html" class="logo"><span class="logo-mark" aria-hidden="true"></span>PRIME <span>CINE</span> VISUALS</a>
+  <nav aria-label="Primary">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="index.html#about" class="nav-link">About</a></li>
+      <li><a href="services.html" class="nav-link active">Pricing</a></li>
+      <li><a href="index.html#work" class="nav-link">Portfolio</a></li>
+      <li><a href="lab.html" class="nav-link">3D Lab</a></li>
+      <li><a href="challenges.html" class="nav-link">Challenges</a></li>
+      <li><a href="hackathons.html" class="nav-link">Hackathons</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero" id="services-home">
+    <div class="wrap">
+      <span class="eyebrow reveal">Work with the studio</span>
+      <h1 class="section-title reveal reveal-delay-1">Services &amp; <span class="hl">Pricing</span></h1>
+      <p class="page-hero-desc reveal reveal-delay-2">Three ways to work with us, from a single hero render to a full commercial pipeline. Every project starts with a quote — no packages are locked until you tell us what you need.</p>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="services">
+    <div class="wrap">
+      <div class="pricing-grid">
+
+        <div class="glass-card price-card reveal reveal-delay-1">
+          <span class="price-tier">Starter</span>
+          <div class="price-amount">₹25,000 <span>starting</span></div>
+          <p class="price-desc">A single hero render or short product loop. Best for a launch post or a one-off asset.</p>
+          <ul class="price-features">
+            <li>1 hero product render</li>
+            <li>Up to 2 revision rounds</li>
+            <li>4K still or 5-second loop</li>
+            <li>7–10 day turnaround</li>
+          </ul>
+          <a href="#quote" class="btn btn-ghost magnetic">Request This</a>
+        </div>
+
+        <div class="glass-card price-card is-featured reveal reveal-delay-2">
+          <span class="price-badge">Most Requested</span>
+          <span class="price-tier">Studio</span>
+          <div class="price-amount">₹75,000 <span>starting</span></div>
+          <p class="price-desc">A full CGI commercial — the kind of spot you'd actually run as a paid ad.</p>
+          <ul class="price-features">
+            <li>15–30 second CGI commercial</li>
+            <li>Full lighting &amp; camera pass</li>
+            <li>Up to 4 revision rounds</li>
+            <li>Sound design pass included</li>
+            <li>10–15 day turnaround</li>
+          </ul>
+          <a href="#quote" class="btn btn-primary magnetic">Request This</a>
+        </div>
+
+        <div class="glass-card price-card reveal reveal-delay-3">
+          <span class="price-tier">Production</span>
+          <div class="price-amount">Custom <span>quote</span></div>
+          <p class="price-desc">Multi-asset campaigns, ongoing retainers, or VFX-heavy work. Scoped after a call.</p>
+          <ul class="price-features">
+            <li>Multiple assets or a full campaign</li>
+            <li>Dedicated pipeline &amp; check-ins</li>
+            <li>Custom revision terms</li>
+            <li>Timeline scoped to project</li>
+          </ul>
+          <a href="#quote" class="btn btn-ghost magnetic">Request This</a>
+        </div>
+
+      </div>
+      <p class="countdown-note" style="margin-top:40px;">Prices are placeholders — set your real rates before this page goes live.</p>
+    </div>
+  </section>
+
+  <!-- QUOTE FORM -->
+  <section class="quote cta" id="quote">
+    <div class="wrap">
+      <p class="eyebrow center reveal">Start a project</p>
+      <h2 class="cta-title reveal reveal-delay-1">Request a <span class="hl">Quote</span></h2>
+      <p class="cta-text reveal reveal-delay-2">Tell us what you're building. We reply within one business day.</p>
+
+      <div class="quote-wrap reveal reveal-delay-3">
+        <!--
+          FORM SETUP — this form needs a real submission endpoint before
+          it can actually collect leads:
+          1. Go to formspree.io, sign up free, create a form.
+          2. Copy the endpoint it gives you (looks like
+             https://formspree.io/f/abcd1234).
+          3. Replace the "action" value below with that URL.
+          Until you do this, submissions will fail — services.js logs
+          a console warning as a reminder.
+        -->
+        <form class="quote-form" id="quoteForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <div class="form-field">
+            <label for="qName">Name</label>
+            <input type="text" id="qName" name="name" required>
+          </div>
+          <div class="form-field">
+            <label for="qEmail">Email</label>
+            <input type="email" id="qEmail" name="email" required>
+          </div>
+          <div class="form-field">
+            <label for="qProject">Project Type</label>
+            <select id="qProject" name="project_type" required>
+              <option value="" disabled selected>Select one</option>
+              <option>Product Animation</option>
+              <option>CGI Commercial</option>
+              <option>Visual Effects</option>
+              <option>Full Campaign</option>
+              <option>Something Else</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="qBudget">Budget Range</label>
+            <select id="qBudget" name="budget" required>
+              <option value="" disabled selected>Select one</option>
+              <option>Under ₹25,000</option>
+              <option>₹25,000 – ₹75,000</option>
+              <option>₹75,000 – ₹2,00,000</option>
+              <option>₹2,00,000+</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label for="qMessage">Project Details</label>
+            <textarea id="qMessage" name="message" placeholder="What are you looking to build, and when do you need it by?" required></textarea>
+          </div>
+          <p class="form-note">We'll only use these details to reply about your project.</p>
+          <button type="submit" class="btn btn-primary magnetic form-submit">Send Request</button>
+        </form>
+        <div class="form-success" id="formSuccess">Thanks — your request is in. We'll get back to you within one business day.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">PRIME <span>CINE</span> VISUALS</div>
+        <p class="footer-desc">A real-time production studio crafting CGI advertisements and visual effects for brands that refuse to look ordinary.</p>
+        <div class="social-row">
+          <a href="#" class="social-icon" aria-label="Instagram">IG</a>
+          <a href="#" class="social-icon" aria-label="X / Twitter">X</a>
+          <a href="#" class="social-icon" aria-label="YouTube">YT</a>
+          <a href="#" class="social-icon" aria-label="LinkedIn">IN</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Pricing</a></li>
+          <li><a href="lab.html">3D Lab</a></li>
+          <li><a href="challenges.html">Challenges</a></li>
+          <li><a href="hackathons.html">Hackathons</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="index.html#services">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 PRIME CINE VISUALS — All Rights Reserved.</span>
+      <span>Designed &amp; Built In-House</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js" defer></script>
+<script src="services.js" defer></script>
+</body>
+</html>
