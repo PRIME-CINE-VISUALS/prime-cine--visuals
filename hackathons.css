@@ -1,0 +1,291 @@
+/* ============================================================
+   HACKATHONS — additive styles
+   Load AFTER styles.css and lab.css. Reuses existing tokens and
+   components (.glass-card, .btn, .eyebrow, .wrap, .section-title,
+   .cta, .chip). Nothing here overrides styles.css or lab.css.
+============================================================= */
+
+/* ------------------------------------------------------------
+   HERO
+------------------------------------------------------------- */
+.hack-hero{
+  padding:190px 0 50px;
+  position:relative; z-index:2;
+  text-align:center;
+}
+.hack-hero .eyebrow{ justify-content:center; }
+.hack-hero .section-title{ margin-top:14px; }
+.hack-hero-desc{
+  max-width:600px;
+  margin:18px auto 0;
+  color:var(--muted);
+  font-weight:300;
+}
+.hack-hero-actions{
+  display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
+  margin-top:34px;
+}
+
+/* ------------------------------------------------------------
+   COUNTDOWN
+------------------------------------------------------------- */
+.countdown{
+  display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
+  margin:44px auto 0;
+}
+.countdown-unit{
+  width:96px;
+  padding:20px 0 16px;
+  border-radius:16px;
+  border:1px solid var(--hairline);
+  background:linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
+  text-align:center;
+}
+.countdown-num{
+  font-family:var(--display);
+  font-size:2.6rem;
+  color:var(--accent);
+  line-height:1;
+  letter-spacing:0.02em;
+  font-variant-numeric:tabular-nums;
+}
+.countdown-label{
+  display:block;
+  margin-top:8px;
+  font-family:var(--mono);
+  font-size:0.62rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--faint);
+}
+.countdown-note{
+  margin-top:18px;
+  font-family:var(--mono);
+  font-size:0.72rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--faint);
+  text-align:center;
+}
+.countdown-note .accent{ color:var(--accent); }
+
+/* ------------------------------------------------------------
+   STICKY SUB-NAV
+------------------------------------------------------------- */
+.hack-subnav-wrap{
+  position:sticky;
+  top:0;
+  z-index:40;
+  display:flex;
+  justify-content:center;
+  padding:14px 20px;
+  background:rgba(5,5,5,0.7);
+  -webkit-backdrop-filter:blur(16px);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--hairline);
+}
+.hack-subnav{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.hack-subnav a{
+  font-family:var(--mono);
+  font-size:0.68rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding:8px 16px;
+  border-radius:999px;
+  border:1px solid transparent;
+  transition:color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+.hack-subnav a:hover{ color:var(--white); }
+.hack-subnav a.is-active{
+  color:var(--accent);
+  border-color:rgba(77,166,255,0.35);
+  background:var(--accent-soft);
+}
+
+/* ------------------------------------------------------------
+   TRACKS GRID — reuses .services-grid / .glass-card patterns
+------------------------------------------------------------- */
+.tracks{ border-top:1px solid var(--hairline); scroll-margin-top:70px; }
+.track-num{
+  font-family:var(--mono);
+  font-size:0.68rem;
+  letter-spacing:0.14em;
+  color:var(--accent);
+  display:block;
+  margin-bottom:14px;
+}
+
+/* ------------------------------------------------------------
+   TIMELINE / SCHEDULE
+------------------------------------------------------------- */
+.schedule{ scroll-margin-top:70px; }
+.timeline{
+  position:relative;
+  max-width:760px;
+  margin:0 auto;
+  padding-left:36px;
+}
+.timeline::before{
+  content:'';
+  position:absolute;
+  left:9px; top:6px; bottom:6px;
+  width:1px;
+  background:linear-gradient(var(--hairline), var(--accent-soft), var(--hairline));
+}
+.timeline-item{
+  position:relative;
+  padding-bottom:38px;
+}
+.timeline-item:last-child{ padding-bottom:0; }
+.timeline-dot{
+  position:absolute;
+  left:-36px; top:4px;
+  width:19px; height:19px;
+  border-radius:50%;
+  border:1px solid var(--accent);
+  background:var(--bg);
+  box-shadow:0 0 0 4px rgba(77,166,255,0.12);
+}
+.timeline-dot::after{
+  content:'';
+  position:absolute; inset:4px;
+  border-radius:50%;
+  background:var(--accent);
+  opacity:0.5;
+}
+.timeline-item.is-highlight .timeline-dot{ box-shadow:0 0 0 6px rgba(77,166,255,0.22); }
+.timeline-item.is-highlight .timeline-dot::after{ opacity:1; }
+.timeline-time{
+  font-family:var(--mono);
+  font-size:0.66rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--accent);
+  display:block;
+  margin-bottom:6px;
+}
+.timeline-title{
+  font-family:var(--display);
+  font-size:1.3rem;
+  letter-spacing:0.01em;
+  color:var(--white);
+  margin-bottom:6px;
+}
+.timeline-desc{
+  color:var(--muted);
+  font-weight:300;
+  font-size:0.92rem;
+  max-width:480px;
+}
+
+/* ------------------------------------------------------------
+   PRIZES — podium layout
+------------------------------------------------------------- */
+.prizes{ scroll-margin-top:70px; border-top:1px solid var(--hairline); }
+.prize-grid{
+  display:grid;
+  grid-template-columns:1fr 1.12fr 1fr;
+  gap:24px;
+  align-items:end;
+  max-width:920px;
+  margin:0 auto;
+}
+.prize-card{
+  text-align:center;
+  padding:36px 26px 30px;
+}
+.prize-card.is-first{
+  padding-top:46px;
+  padding-bottom:40px;
+  border-color:rgba(77,166,255,0.35);
+  box-shadow:0 24px 60px -24px rgba(77,166,255,0.35);
+}
+.prize-rank{
+  font-family:var(--mono);
+  font-size:0.66rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--faint);
+  margin-bottom:14px;
+}
+.prize-card.is-first .prize-rank{ color:var(--accent); }
+.prize-amount{
+  font-family:var(--display);
+  font-size:2.4rem;
+  color:var(--white);
+  letter-spacing:0.02em;
+}
+.prize-card.is-first .prize-amount{ font-size:3rem; color:var(--accent); }
+.prize-desc{
+  margin-top:10px;
+  color:var(--muted);
+  font-weight:300;
+  font-size:0.88rem;
+}
+
+/* ------------------------------------------------------------
+   FAQ ACCORDION
+------------------------------------------------------------- */
+.faq{ scroll-margin-top:70px; }
+.faq-list{ max-width:760px; margin:0 auto; }
+.faq-item{
+  border-bottom:1px solid var(--hairline);
+}
+.faq-item:first-child{ border-top:1px solid var(--hairline); }
+.faq-q{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:22px 4px;
+  text-align:left;
+  font-family:var(--body);
+  font-size:1rem;
+  font-weight:500;
+  color:var(--white);
+}
+.faq-q-arrow{
+  flex:none;
+  display:inline-flex;
+  color:var(--accent);
+  transition:transform 0.4s var(--ease);
+}
+.faq-item.is-open .faq-q-arrow{ transform:rotate(45deg); }
+.faq-a{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.5s var(--ease), padding 0.5s var(--ease);
+  color:var(--muted);
+  font-weight:300;
+  font-size:0.94rem;
+  padding:0 4px;
+}
+.faq-item.is-open .faq-a{ max-height:220px; padding:0 4px 22px; }
+
+/* ------------------------------------------------------------
+   RESPONSIVE — mirrors styles.css breakpoints
+------------------------------------------------------------- */
+@media (max-width:1080px){
+  .prize-grid{ grid-template-columns:1fr; max-width:340px; }
+  .prize-card.is-first{ order:-1; }
+}
+@media (max-width:860px){
+  .hack-subnav{ gap:2px; }
+  .hack-subnav a{ padding:7px 12px; font-size:0.62rem; }
+}
+@media (max-width:520px){
+  .hack-hero{ padding:150px 0 30px; }
+  .countdown-unit{ width:74px; padding:14px 0 12px; }
+  .countdown-num{ font-size:1.9rem; }
+  .timeline{ padding-left:28px; }
+  .timeline-dot{ left:-28px; width:16px; height:16px; }
+}
