@@ -1,3 +1,503 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Prime Cine Visuals 3D Community Gallery"
+  >
+
+  <title>3D Gallery | Prime Cine Visuals</title>
+
+  <!-- Preconnect for font performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Main Prime Cine Visuals theme -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Gallery-specific styling -->
+  <link rel="stylesheet" href="gallery.css">
+</head>
+
+
+<body>
+
+  <!-- =====================================================
+       PRIME CINE VISUALS CURSOR & EFFECTS
+       ===================================================== -->
+
+  <!-- Custom cursor (decorative) -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- Scroll progress -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Ambient background layers -->
+  <div class="ambient" aria-hidden="true">
+    <div class="blob blob-a"></div>
+    <div class="blob blob-b"></div>
+    <div class="blob blob-c"></div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+
+  <!-- =====================================================
+       NAVIGATION
+       ===================================================== -->
+
+  <header id="siteHeader">
+    <a href="index.html" class="logo"><span class="logo-mark" aria-hidden="true"></span>PRIME <span>CINE</span> VISUALS</a>
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="index.html#about" class="nav-link">About</a></li>
+        <li><a href="index.html#services" class="nav-link">Services</a></li>
+        <li><a href="services.html" class="nav-link">Pricing</a></li>
+        <li><a href="index.html#work" class="nav-link">Portfolio</a></li>
+        <li><a href="gallery.html" class="nav-link active">3D Gallery</a></li>
+        <li><a href="lab.html" class="nav-link">3D Lab</a></li>
+        <li><a href="challenges.html" class="nav-link">Challenges</a></li>
+        <li><a href="hackathons.html" class="nav-link">Hackathons</a></li>
+        <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+
+  <!-- =====================================================
+       MAIN CONTENT
+       ===================================================== -->
+
+  <main>
+
+    <section
+      class="pcv-gallery"
+      id="gallery"
+    >
+
+      <!-- =================================================
+           GALLERY INTRO
+           ================================================= -->
+
+      <div class="gallery-intro">
+
+        <div class="gallery-intro-copy">
+
+          <span class="gallery-kicker">
+            PRIME 3D LAB
+          </span>
+
+
+          <h1>
+            COMMUNITY
+            <span>GALLERY</span>
+          </h1>
+
+
+          <p>
+            A showcase of CGI, VFX, 3D art and
+            motion experiments created by the
+            Prime 3D community.
+          </p>
+
+        </div>
+
+
+        <!-- ===============================================
+             GALLERY STATS
+             =============================================== -->
+
+        <div
+          class="gallery-stats"
+          aria-label="Gallery statistics"
+        >
+
+          <div class="gallery-stat">
+
+            <strong id="artworkCount">
+              0
+            </strong>
+
+            <span>
+              ARTWORKS
+            </span>
+
+          </div>
+
+
+          <div class="gallery-stat">
+
+            <strong id="artistCount">
+              0
+            </strong>
+
+            <span>
+              ARTISTS
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           TOOLBAR
+           ================================================= -->
+
+      <div class="gallery-toolbar">
+
+        <!-- FILTERS -->
+
+        <div
+          class="gallery-filters"
+          role="group"
+          aria-label="Filter artworks"
+        >
+
+          <button
+            type="button"
+            class="gallery-filter active"
+            data-filter="all"
+          >
+            ALL
+          </button>
+
+
+          <button
+            type="button"
+            class="gallery-filter"
+            data-filter="cgi"
+          >
+            CGI
+          </button>
+
+
+          <button
+            type="button"
+            class="gallery-filter"
+            data-filter="vfx"
+          >
+            VFX
+          </button>
+
+
+          <button
+            type="button"
+            class="gallery-filter"
+            data-filter="blender"
+          >
+            BLENDER
+          </button>
+
+
+          <button
+            type="button"
+            class="gallery-filter"
+            data-filter="unreal"
+          >
+            UNREAL
+          </button>
+
+
+          <button
+            type="button"
+            class="gallery-filter"
+            data-filter="motion"
+          >
+            MOTION
+          </button>
+
+        </div>
+
+
+        <!-- ACTIONS & SORT -->
+        <div class="gallery-actions" style="display: flex; gap: 16px; align-items: center;">
+          <button type="button" class="btn btn-primary magnetic" id="btnAddArtwork" style="padding: 12px 24px; border-radius: 8px; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;">
+            + Add Artwork
+          </button>
+          
+          <label
+            class="gallery-sort-wrapper"
+            for="gallerySort"
+          >
+
+          <span class="sr-only">
+            Sort gallery
+          </span>
+
+          <select
+            id="gallerySort"
+            class="gallery-sort"
+          >
+
+            <option value="popular">
+              MOST POPULAR
+            </option>
+
+            <option value="newest">
+              NEWEST
+            </option>
+
+            <option value="controversial">
+              MOST DISCUSSED
+            </option>
+
+          </select>
+
+          </label>
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           ARTWORK GRID
+
+           gallery.js dynamically inserts artwork cards here.
+           ================================================= -->
+
+      <div
+        id="galleryGrid"
+        class="gallery-grid"
+      ></div>
+
+
+      <!-- =================================================
+           EMPTY STATE
+           ================================================= -->
+
+      <div
+        class="gallery-empty"
+        id="galleryEmpty"
+        aria-live="polite"
+      >
+
+        <h3>
+          NO ARTWORKS FOUND
+        </h3>
+
+        <p>
+          Try another category.
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       ARTWORK MODAL
+       ===================================================== -->
+
+  <div
+    class="artwork-modal"
+    id="artworkModal"
+    aria-hidden="true"
+  >
+
+    <!-- Backdrop -->
+
+    <div
+      class="modal-backdrop"
+      data-close-modal
+    ></div>
+
+
+    <!-- Modal Content -->
+
+    <div
+      class="artwork-modal-content"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+
+      <!-- Close -->
+
+      <button
+        type="button"
+        class="modal-close"
+        data-close-modal
+        aria-label="Close artwork"
+      >
+        ×
+      </button>
+
+
+      <!-- Artwork Image -->
+
+      <div class="modal-image-wrapper">
+
+        <img
+          id="modalImage"
+          src=""
+          alt=""
+        >
+
+      </div>
+
+
+      <!-- Artwork Details -->
+
+      <div class="modal-details">
+
+        <span
+          id="modalCategory"
+          class="modal-category"
+        ></span>
+
+
+        <h2 id="modalTitle"></h2>
+
+
+        <!-- Artist -->
+
+        <div class="modal-artist">
+
+          <div
+            class="artist-avatar"
+            id="modalAvatar"
+            aria-hidden="true"
+          ></div>
+
+
+          <div>
+
+            <strong id="modalArtist"></strong>
+
+            <span>
+              3D ARTIST
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- Description -->
+
+        <p id="modalDescription"></p>
+
+
+        <!-- Meta -->
+
+        <div class="modal-meta">
+
+          <span id="modalSoftware"></span>
+
+          <span id="modalScore"></span>
+
+        </div>
+
+
+        <!-- Voting -->
+
+        <div
+          class="modal-voting"
+          aria-label="Artwork voting"
+        >
+
+          <button
+            type="button"
+            class="vote-button upvote"
+            id="modalUpvote"
+          >
+            <span aria-hidden="true">↑</span>
+            UPVOTE
+          </button>
+
+
+          <button
+            type="button"
+            class="vote-button downvote"
+            id="modalDownvote"
+          >
+            <span aria-hidden="true">↓</span>
+            DOWNVOTE
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">PRIME <span>CINE</span> VISUALS</div>
+          <p class="footer-desc">A real-time production studio crafting CGI advertisements and visual effects for brands that refuse to look ordinary.</p>
+          <div class="social-row">
+            <a href="#" class="social-icon" aria-label="Instagram">IG</a>
+            <a href="#" class="social-icon" aria-label="X / Twitter">X</a>
+            <a href="#" class="social-icon" aria-label="YouTube">YT</a>
+            <a href="#" class="social-icon" aria-label="LinkedIn">IN</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Pricing</a></li>
+            <li><a href="gallery.html">3D Gallery</a></li>
+            <li><a href="lab.html">3D Lab</a></li>
+            <li><a href="challenges.html">Challenges</a></li>
+            <li><a href="hackathons.html">Hackathons</a></li>
+            <li><a href="index.html#work">Portfolio</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Studio</h4>
+          <ul>
+            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="index.html#services">Careers</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 PRIME CINE VISUALS — All Rights Reserved.</span>
+        <span>Designed &amp; Built In-House</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================
+       SCRIPTS
+
+       script.js = Prime Cine Visuals shared interactions
+       gallery.js = Gallery-specific functionality
+       ===================================================== -->
+
+  <script src="script.js"></script>
+  <script src="gallery.js"></script>
+
+</body>
+
+=======
 <!DOCTYPE html>
 <html lang="en">
 
@@ -491,4 +991,5 @@
 
 </body>
 
+>>>>>>> 7e452471acba3de99c49e88bee0200a66debe7f4
 </html>
