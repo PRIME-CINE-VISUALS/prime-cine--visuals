@@ -12,6 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="services.css">
 <link rel="stylesheet" href="hackathons.css">
 </head>
 <body>
@@ -69,8 +70,8 @@
       <h1 class="section-title reveal reveal-delay-1">Prime Cine <span class="hl">Hackathons</span></h1>
       <p class="hack-hero-desc reveal reveal-delay-2">A timed sprint, an open track, and a render that has to hold up under a deadline. No perfect conditions — just the pipeline, the clock, and your team.</p>
       <div class="hack-hero-actions reveal reveal-delay-3">
-        <a href="#tracks" class="btn btn-primary magnetic">View Tracks</a>
-        <a href="#faq" class="btn btn-ghost magnetic">How It Works</a>
+        <a href="#register" class="btn btn-primary magnetic">Register Now</a>
+        <a href="#tracks" class="btn btn-ghost magnetic">View Tracks</a>
       </div>
 
       <!--
@@ -105,6 +106,7 @@
       <a href="#tracks">Tracks</a>
       <a href="#schedule">Schedule</a>
       <a href="#prizes">Prizes</a>
+      <a href="#register">Register</a>
       <a href="#faq">FAQ</a>
     </nav>
   </div>
@@ -221,6 +223,72 @@
     </div>
   </section>
 
+  <!-- REGISTER -->
+  <section class="quote" id="register">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Lock in your team</span>
+          <h2 class="section-title">Register <span class="hl">Now</span></h2>
+        </div>
+        <p class="section-note">Solo or up to a team of four. Track choice can change on the day.</p>
+      </div>
+
+      <div class="quote-wrap reveal reveal-delay-1">
+        <!--
+          FORM SETUP — same as the quote form on services.html:
+          1. Create a second form at formspree.io (keep hackathon
+             registrations separate from client quote requests).
+          2. Replace YOUR_HACK_FORM_ID below with that endpoint.
+          Until then, submissions will fail — hackathons.js logs a
+          console warning as a reminder.
+        -->
+        <form class="quote-form" id="hackRegisterForm" action="https://formspree.io/f/YOUR_HACK_FORM_ID" method="POST">
+          <div class="form-field">
+            <label for="hTeamName">Team Name</label>
+            <input type="text" id="hTeamName" name="team_name" placeholder="Solo? Just use your name" required>
+          </div>
+          <div class="form-field">
+            <label for="hLeaderName">Your Name</label>
+            <input type="text" id="hLeaderName" name="leader_name" required>
+          </div>
+          <div class="form-field">
+            <label for="hEmail">Email</label>
+            <input type="email" id="hEmail" name="email" required>
+          </div>
+          <div class="form-field">
+            <label for="hTeamSize">Team Size</label>
+            <select id="hTeamSize" name="team_size" required>
+              <option value="" disabled selected>Select one</option>
+              <option>Solo</option>
+              <option>2 people</option>
+              <option>3 people</option>
+              <option>4 people</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label for="hTrack">Preferred Track</label>
+            <select id="hTrack" name="track" required>
+              <option value="" disabled selected>Select one</option>
+              <option>Real-Time Rendering</option>
+              <option>Motion &amp; Story</option>
+              <option>Procedural Worlds</option>
+              <option>Open Innovation</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label for="hNotes">Anything else we should know?</label>
+            <textarea id="hNotes" name="notes" placeholder="Software you're using, questions, accessibility needs, etc. — optional"></textarea>
+          </div>
+          <p class="form-note">We'll email a confirmation and event details after you submit.</p>
+          <button type="submit" class="btn btn-primary magnetic form-submit">Submit Registration</button>
+        </form>
+        <div class="form-success" id="hackFormSuccess">You're in — check your email for confirmation and event details closer to the date.</div>
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section class="faq" id="faq">
     <div class="wrap">
@@ -276,18 +344,12 @@
     <div class="wrap">
       <p class="eyebrow center reveal">Ready when you are</p>
       <h2 class="cta-title reveal reveal-delay-1">Save Your <span class="hl">Spot</span></h2>
-      <p class="cta-text reveal reveal-delay-2">Registration link goes live closer to the date — reach out to lock in early interest.</p>
+      <p class="cta-text reveal reveal-delay-2">Registration takes under a minute. Solo entries welcome.</p>
       <div class="cta-actions reveal reveal-delay-3">
-        <a href="mailto:primecinevisuals@gmail.com" class="btn btn-primary magnetic email-btn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M4 4h16v16H4V4z"/>
-            <path d="M4 6l8 7 8-7"/>
-          </svg>
-          <span>primecinevisuals@gmail.com</span>
-        </a>
+        <a href="#register" class="btn btn-primary magnetic">Register Now</a>
         <a href="challenges.html" class="btn btn-ghost magnetic">Warm Up With a Challenge</a>
-        <a href="services.html#quote" class="btn btn-ghost magnetic">Sponsor This Hackathon</a>
       </div>
+      <p class="countdown-note" style="margin-top:28px;">Looking to sponsor instead of compete? <a href="services.html#quote" class="hack-inline-link">Get in touch here</a>.</p>
     </div>
   </section>
 

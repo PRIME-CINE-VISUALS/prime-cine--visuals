@@ -71,4 +71,44 @@
     });
   });
 
+  /* ---------- Registration form ---------- */
+  var regForm = document.getElementById('hackRegisterForm');
+  if(regForm){
+    var regSuccess = document.getElementById('hackFormSuccess');
+    var regBtn = regForm.querySelector('.form-submit');
+    var regBtnLabel = regBtn ? regBtn.textContent : 'Submit Registration';
+
+    regForm.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      var action = regForm.getAttribute('action') || '';
+      if(action.indexOf('YOUR_HACK_FORM_ID') !== -1){
+        console.warn('Hackathon registration form: replace YOUR_HACK_FORM_ID in the form action with a real Formspree endpoint before this goes live.');
+      }
+
+      regBtn.disabled = true;
+      regBtn.textContent = 'Submitting…';
+
+      fetch(action, {
+        method: 'POST',
+        body: new FormData(regForm),
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(function(res){
+        if(res.ok){
+          regForm.reset();
+          regForm.style.display = 'none';
+          if(regSuccess) regSuccess.classList.add('is-visible');
+        } else {
+          throw new Error('Submit failed');
+        }
+      })
+      .catch(function(){
+        regBtn.disabled = false;
+        regBtn.textContent = regBtnLabel;
+        alert('Something went wrong submitting your registration — please email primecinevisuals@gmail.com directly instead.');
+      });
+    });
+  }
+
 })();
