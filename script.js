@@ -76,17 +76,74 @@
     revealEls.forEach(function(el){ el.classList.add('is-visible'); });
   }
 
-  /* ---------- Custom cursor (dot only — the theme hides .cursor-ring) ---------- */
+  /* ---------- Prime Cine Visuals Custom Cursor ---------- */
+
+  /* ---------- Prime Cine Visuals Custom Cursor (Physics-based) ---------- */
+
   if(!isCoarsePointer && !reduceMotion){
+
     var dot = document.getElementById('cursorDot');
-    window.addEventListener('mousemove', function(e){
-      dot.style.left = e.clientX + 'px';
-      dot.style.top = e.clientY + 'px';
-    }, { passive: true });
-    document.querySelectorAll('a, button, .magnetic').forEach(function(el){
-      el.addEventListener('mouseenter', function(){ dot.style.transform = 'translate(-50%,-50%) scale(1.8)'; });
-      el.addEventListener('mouseleave', function(){ dot.style.transform = 'translate(-50%,-50%) scale(1)'; });
-    });
+    var ring = document.querySelector('.cursor-ring');
+
+    if(dot){
+      // State
+      var mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      var dotPos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      var ringPos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      
+      // Settings
+      var dotSpeed = 1; // Instant for the dot
+      var ringSpeed = 0.15; // Smooth trailing for the ring
+
+      window.addEventListener('mousemove', function(e){
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      }, { passive: true });
+
+      function renderCursor() {
+        // Lerp function
+        dotPos.x += (mouse.x - dotPos.x) * dotSpeed;
+        dotPos.y += (mouse.y - dotPos.y) * dotSpeed;
+
+        dot.style.transform = `translate3d(${dotPos.x}px, ${dotPos.y}px, 0)`;
+
+        if(ring){
+          ringPos.x += (mouse.x - ringPos.x) * ringSpeed;
+          ringPos.y += (mouse.y - ringPos.y) * ringSpeed;
+          ring.style.transform = `translate3d(${ringPos.x}px, ${ringPos.y}px, 0)`;
+        }
+
+        requestAnimationFrame(renderCursor);
+      }
+      
+      // Start loop
+      requestAnimationFrame(renderCursor);
+
+      /*
+       * Interactive hover state
+       */
+
+      document
+        .querySelectorAll('a, button, select, .magnetic, .gallery-card, .gallery-filter')
+        .forEach(function(el){
+
+          el.addEventListener('mouseenter', function(){
+            dot.classList.add('cursor-active');
+            if(ring){
+              ring.classList.add('cursor-ring-active');
+            }
+          });
+
+          el.addEventListener('mouseleave', function(){
+            dot.classList.remove('cursor-active');
+            if(ring){
+              ring.classList.remove('cursor-ring-active');
+            }
+          });
+
+        });
+    }
+
   }
 
   /* ---------- Magnetic buttons ---------- */
