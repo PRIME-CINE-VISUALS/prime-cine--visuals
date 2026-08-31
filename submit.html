@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit Artwork — Prime Cine Visuals</title>
+<meta name="description" content="Submit your CGI, VFX, 3D animation, or motion design projects to Prime Cine Visuals for review and showcase.">
+<meta name="theme-color" content="#050505">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="auth-admin.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/submissions.js"></script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<!-- Loader -->
+<div id="loader" role="status" aria-live="polite">
+  <div class="loader-inner">
+    <div class="loader-mark">PRIME<span>·</span>CINE</div>
+    <div class="loader-ring" aria-hidden="true"></div>
+    <div class="loader-pct" id="loaderPct">LOADING 0%</div>
+  </div>
+</div>
+
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<div class="ambient" aria-hidden="true">
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="blob blob-c"></div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+<div class="particles" id="particles" aria-hidden="true"></div>
+
+<!-- Navigation Header -->
+<header id="siteHeader">
+  <a href="index.html" class="logo"><span class="logo-mark" aria-hidden="true"></span>PRIME <span>CINE</span> VISUALS</a>
+  <nav aria-label="Primary">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="index.html#about" class="nav-link">About</a></li>
+      <li><a href="index.html#services" class="nav-link">Services</a></li>
+      <li><a href="services.html" class="nav-link">Pricing</a></li>
+      <li><a href="index.html#work" class="nav-link">Portfolio</a></li>
+      <li><a href="gallery.html" class="nav-link">3D Gallery</a></li>
+      <li><a href="lab.html" class="nav-link">3D Lab</a></li>
+      <li><a href="challenges.html" class="nav-link">Challenges</a></li>
+      <li><a href="hackathons.html" class="nav-link">Hackathons</a></li>
+      <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<main id="main-content" style="padding-top: 130px; padding-bottom: 100px;">
+  <div class="wrap" style="max-width: 720px;">
+    <div class="section-head reveal is-visible" style="margin-bottom: 40px; text-align: center; justify-content: center;">
+      <div>
+        <span class="eyebrow center">Artist Submission Pipeline</span>
+        <h1 class="section-title">Submit Your <span class="hl">Artwork</span></h1>
+        <p class="section-note" style="margin: 12px auto 0;">All new submissions enter PENDING status for studio review.</p>
+      </div>
+    </div>
+
+    <div class="auth-box reveal is-visible">
+      <div id="submitAlert" class="alert-banner" style="display:none;" role="alert"></div>
+
+      <form id="submissionForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="subTitle">Work Title <span class="req">*</span></label>
+          <input type="text" id="subTitle" class="form-input" placeholder="e.g. Cybernetic Watch Commercial" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="subCategory">Category / Discipline <span class="req">*</span></label>
+          <select id="subCategory" class="form-select" required>
+            <option value="" disabled selected>Select category...</option>
+            <option value="3D Animation">3D Animation</option>
+            <option value="Visual Effects">Visual Effects (VFX)</option>
+            <option value="CGI Commercial">CGI Commercial</option>
+            <option value="Motion Design">Motion Design</option>
+            <option value="Short Film">Short Film</option>
+            <option value="Product Visualization">Product Visualization</option>
+            <option value="Interactive Experience">Interactive Experience</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="subMediaUrl">Media URL / Direct Video or Image Link <span class="req">*</span></label>
+          <input type="url" id="subMediaUrl" class="form-input" placeholder="https://example.com/artwork.mp4 or poster image URL" required>
+          <span style="font-size: 0.76rem; color: var(--muted); margin-top: 4px;">Supports MP4/WebM video files or PNG/JPG image URLs. (Try <code>perfume-ad.mp4</code> or <code>cinematic-car-showreel.mp4</code> for local demo)</span>
+        </div>
+
+        <!-- Live Preview Container -->
+        <div id="previewWrapper" style="display:none; margin-bottom: 22px;">
+          <label class="form-label">Media Preview</label>
+          <div class="submission-media-preview" style="border-radius: 12px; height: 220px;" id="previewContent"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="subDescription">Project Description &amp; Software Used <span class="req">*</span></label>
+          <textarea id="subDescription" class="form-textarea" placeholder="Describe your concept, render engine (Blender, Cinema4D, Unreal Engine, Houdini), and production workflow..." required></textarea>
+        </div>
+
+        <div style="display: flex; gap: 16px; justify-content: flex-end; margin-top: 30px;">
+          <a href="profile.html" class="btn btn-ghost">Cancel</a>
+          <button type="submit" id="submitBtn" class="btn btn-primary magnetic">
+            <span>Submit Artwork →</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script src="script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  // Protect route
+  var currentUser = window.PCV_Auth.requireAuth();
+  if (!currentUser) return;
+
+  var subMediaUrl = document.getElementById('subMediaUrl');
+  var previewWrapper = document.getElementById('previewWrapper');
+  var previewContent = document.getElementById('previewContent');
+  var submissionForm = document.getElementById('submissionForm');
+  var submitAlert = document.getElementById('submitAlert');
+
+  // Media preview handler
+  subMediaUrl.addEventListener('input', function(){
+    var val = subMediaUrl.value.trim();
+    if (val.length > 5) {
+      previewWrapper.style.display = 'block';
+      if (val.endsWith('.mp4') || val.endsWith('.webm')) {
+        previewContent.innerHTML = '<video src="' + val + '" muted autoplay loop playsinline style="width:100%; height:100%; object-fit:cover;"></video>';
+      } else {
+        previewContent.innerHTML = '<img src="' + val + '" alt="Preview" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null; this.src=\'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80\';">';
+      }
+    } else {
+      previewWrapper.style.display = 'none';
+    }
+  });
+
+  submissionForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    submitAlert.style.display = 'none';
+
+    var title = document.getElementById('subTitle').value;
+    var category = document.getElementById('subCategory').value;
+    var mediaUrl = subMediaUrl.value;
+    var description = document.getElementById('subDescription').value;
+    var submitBtn = document.getElementById('submitBtn');
+
+    submitBtn.disabled = true;
+    submitBtn.querySelector('span').textContent = 'Submitting Work...';
+
+    var res = await window.PCV_Submissions.createSubmission(title, description, category, mediaUrl);
+
+    submitBtn.disabled = false;
+    submitBtn.querySelector('span').textContent = 'Submit Artwork →';
+
+    if (res.error) {
+      submitAlert.className = 'alert-banner error';
+      submitAlert.innerHTML = '⚠ ' + res.error;
+      submitAlert.style.display = 'flex';
+    } else {
+      submitAlert.className = 'alert-banner success';
+      submitAlert.innerHTML = '✓ Submission successful! Default status is PENDING.';
+      submitAlert.style.display = 'flex';
+
+      setTimeout(function(){
+        window.location.href = 'profile.html';
+      }, 1200);
+    }
+  });
+});
+</script>
+</body>
+</html>

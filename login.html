@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account Login &amp; Signup — Prime Cine Visuals</title>
+<meta name="description" content="Sign in or register an artist account on Prime Cine Visuals to submit visual effects and 3D artwork.">
+<meta name="theme-color" content="#050505">
+
+<!-- Preconnect fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="auth-admin.css">
+
+<!-- Supabase SDK CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/nav.js"></script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<!-- Loader -->
+<div id="loader" role="status" aria-live="polite">
+  <div class="loader-inner">
+    <div class="loader-mark">PRIME<span>·</span>CINE</div>
+    <div class="loader-ring" aria-hidden="true"></div>
+    <div class="loader-pct" id="loaderPct">LOADING 0%</div>
+  </div>
+</div>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<!-- Ambient Background -->
+<div class="ambient" aria-hidden="true">
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="blob blob-c"></div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+<div class="particles" id="particles" aria-hidden="true"></div>
+
+<!-- Navigation Header -->
+<header id="siteHeader">
+  <a href="index.html" class="logo"><span class="logo-mark" aria-hidden="true"></span>PRIME <span>CINE</span> VISUALS</a>
+  <nav aria-label="Primary">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="index.html#about" class="nav-link">About</a></li>
+      <li><a href="index.html#services" class="nav-link">Services</a></li>
+      <li><a href="services.html" class="nav-link">Pricing</a></li>
+      <li><a href="index.html#work" class="nav-link">Portfolio</a></li>
+      <li><a href="gallery.html" class="nav-link">3D Gallery</a></li>
+      <li><a href="lab.html" class="nav-link">3D Lab</a></li>
+      <li><a href="challenges.html" class="nav-link">Challenges</a></li>
+      <li><a href="hackathons.html" class="nav-link">Hackathons</a></li>
+      <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<main id="main-content">
+  <div class="auth-container">
+    <div class="auth-box reveal is-visible">
+      <!-- Tabs Switcher -->
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab active" id="tabLoginBtn" role="tab" aria-selected="true" type="button">Sign In</button>
+        <button class="auth-tab" id="tabSignupBtn" role="tab" aria-selected="false" type="button">Create Account</button>
+      </div>
+
+      <!-- Alert Message Box -->
+      <div id="authAlert" class="alert-banner" style="display:none;" role="alert"></div>
+
+      <!-- ================= LOGIN FORM ================= -->
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email Address <span class="req">*</span></label>
+          <input type="email" id="loginEmail" class="form-input" placeholder="artist@primecine.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Password <span class="req">*</span></label>
+          <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" id="loginSubmitBtn" class="btn btn-primary magnetic" style="width: 100%; justify-content: center; margin-top: 10px;">
+          <span>Sign In</span>
+        </button>
+      </form>
+
+      <!-- ================= SIGNUP FORM ================= -->
+      <form id="signupForm" style="display: none;" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="signupName">Full Name <span class="req">*</span></label>
+          <input type="text" id="signupName" class="form-input" placeholder="e.g. Alex Rivera" required autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="signupEmail">Email Address <span class="req">*</span></label>
+          <input type="email" id="signupEmail" class="form-input" placeholder="artist@primecine.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="signupPassword">Password <span class="req">*</span></label>
+          <input type="password" id="signupPassword" class="form-input" placeholder="Minimum 6 characters" required autocomplete="new-password">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="signupConfirmPassword">Confirm Password <span class="req">*</span></label>
+          <input type="password" id="signupConfirmPassword" class="form-input" placeholder="Re-enter password" required autocomplete="new-password">
+        </div>
+        <button type="submit" id="signupSubmitBtn" class="btn btn-primary magnetic" style="width: 100%; justify-content: center; margin-top: 10px;">
+          <span>Create Account</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script src="script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var tabLoginBtn = document.getElementById('tabLoginBtn');
+  var tabSignupBtn = document.getElementById('tabSignupBtn');
+  var loginForm = document.getElementById('loginForm');
+  var signupForm = document.getElementById('signupForm');
+  var authAlert = document.getElementById('authAlert');
+
+  function showAlert(msg, type) {
+    authAlert.className = 'alert-banner ' + (type || 'error');
+    authAlert.innerHTML = (type === 'success' ? '✓ ' : '⚠ ') + msg;
+    authAlert.style.display = 'flex';
+  }
+
+  function hideAlert() {
+    authAlert.style.display = 'none';
+  }
+
+  function switchTab(mode) {
+    hideAlert();
+    if (mode === 'signup') {
+      tabLoginBtn.classList.remove('active');
+      tabLoginBtn.setAttribute('aria-selected', 'false');
+      tabSignupBtn.classList.add('active');
+      tabSignupBtn.setAttribute('aria-selected', 'true');
+      loginForm.style.display = 'none';
+      signupForm.style.display = 'block';
+    } else {
+      tabSignupBtn.classList.remove('active');
+      tabSignupBtn.setAttribute('aria-selected', 'false');
+      tabLoginBtn.classList.add('active');
+      tabLoginBtn.setAttribute('aria-selected', 'true');
+      signupForm.style.display = 'none';
+      loginForm.style.display = 'block';
+    }
+  }
+
+  tabLoginBtn.addEventListener('click', function(){ switchTab('login'); });
+  tabSignupBtn.addEventListener('click', function(){ switchTab('signup'); });
+
+  // Handle URL param tab=signup
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('tab') === 'signup') {
+    switchTab('signup');
+  }
+
+  // Handle Login Submit
+  loginForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    hideAlert();
+    var email = document.getElementById('loginEmail').value;
+    var password = document.getElementById('loginPassword').value;
+    var submitBtn = document.getElementById('loginSubmitBtn');
+
+    submitBtn.disabled = true;
+    submitBtn.querySelector('span').textContent = 'Authenticating...';
+
+    var res = await window.PCV_Auth.login(email, password);
+
+    submitBtn.disabled = false;
+    submitBtn.querySelector('span').textContent = 'Sign In';
+
+    if (res.error) {
+      showAlert(res.error, 'error');
+    } else {
+      showAlert('Signed in successfully! Redirecting...', 'success');
+      setTimeout(function(){
+        if (res.user.role === 'admin') {
+          window.location.href = 'admin.html';
+        } else {
+          window.location.href = 'profile.html';
+        }
+      }, 800);
+    }
+  });
+
+  // Handle Signup Submit
+  signupForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    hideAlert();
+    var name = document.getElementById('signupName').value;
+    var email = document.getElementById('signupEmail').value;
+    var password = document.getElementById('signupPassword').value;
+    var confirmPassword = document.getElementById('signupConfirmPassword').value;
+    var submitBtn = document.getElementById('signupSubmitBtn');
+
+    submitBtn.disabled = true;
+    submitBtn.querySelector('span').textContent = 'Creating Account...';
+
+    var res = await window.PCV_Auth.signup(name, email, password, confirmPassword);
+
+    submitBtn.disabled = false;
+    submitBtn.querySelector('span').textContent = 'Create Account';
+
+    if (res.error) {
+      showAlert(res.error, 'error');
+    } else {
+      showAlert('Account registered successfully! Redirecting to profile...', 'success');
+      setTimeout(function(){
+        window.location.href = 'profile.html';
+      }, 1000);
+    }
+  });
+});
+</script>
+</body>
+</html>

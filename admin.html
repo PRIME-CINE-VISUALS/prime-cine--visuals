@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Portal — Prime Cine Visuals</title>
+<meta name="description" content="Admin Dashboard for Prime Cine Visuals — Manage user profiles, review submission pipeline, approve artwork, and issue artist feedback.">
+<meta name="theme-color" content="#050505">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="auth-admin.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/admin.js"></script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<!-- Loader -->
+<div id="loader" role="status" aria-live="polite">
+  <div class="loader-inner">
+    <div class="loader-mark">PRIME<span>·</span>CINE</div>
+    <div class="loader-ring" aria-hidden="true"></div>
+    <div class="loader-pct" id="loaderPct">LOADING 0%</div>
+  </div>
+</div>
+
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<div class="ambient" aria-hidden="true">
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="blob blob-c"></div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+<div class="particles" id="particles" aria-hidden="true"></div>
+
+<!-- Navigation Header -->
+<header id="siteHeader">
+  <a href="index.html" class="logo"><span class="logo-mark" aria-hidden="true"></span>PRIME <span>CINE</span> VISUALS</a>
+  <nav aria-label="Primary">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="index.html#about" class="nav-link">About</a></li>
+      <li><a href="index.html#services" class="nav-link">Services</a></li>
+      <li><a href="services.html" class="nav-link">Pricing</a></li>
+      <li><a href="index.html#work" class="nav-link">Portfolio</a></li>
+      <li><a href="gallery.html" class="nav-link">3D Gallery</a></li>
+      <li><a href="lab.html" class="nav-link">3D Lab</a></li>
+      <li><a href="challenges.html" class="nav-link">Challenges</a></li>
+      <li><a href="hackathons.html" class="nav-link">Hackathons</a></li>
+      <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<main id="main-content" style="padding-top: 130px; padding-bottom: 100px;">
+  <div class="wrap">
+    <!-- Admin Portal Header -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <span class="eyebrow">Studio Management</span>
+        <h1 class="section-title" style="margin-top: 6px;">ADMIN <span class="hl">DASHBOARD</span></h1>
+      </div>
+      
+      <!-- Admin Tab Switchers -->
+      <div class="auth-tabs" style="margin-bottom: 0;">
+        <button class="auth-tab active" id="tabOverviewBtn" type="button">Overview</button>
+        <button class="auth-tab" id="tabSubmissionsBtn" type="button">Submissions</button>
+        <button class="auth-tab" id="tabUsersBtn" type="button">Users</button>
+      </div>
+    </div>
+
+    <!-- Alert Banner -->
+    <div id="adminAlert" class="alert-banner" style="display:none;"></div>
+
+    <!-- ================= SECTION 1: STATS OVERVIEW ================= -->
+    <div id="sectionOverview">
+      <div class="admin-stats-grid">
+        <div class="stat-card">
+          <span class="stat-label">Total Users</span>
+          <span class="stat-value" id="statUsers">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Total Submissions</span>
+          <span class="stat-value" id="statSubmissions">0</span>
+        </div>
+        <div class="stat-card stat-pending">
+          <span class="stat-label">Pending Review</span>
+          <span class="stat-value" id="statPending" style="color: #ffc107;">0</span>
+        </div>
+        <div class="stat-card stat-approved">
+          <span class="stat-label">Approved Works</span>
+          <span class="stat-value" id="statApproved" style="color: #4dffa6;">0</span>
+        </div>
+        <div class="stat-card stat-rejected">
+          <span class="stat-label">Rejected Works</span>
+          <span class="stat-value" id="statRejected" style="color: #ff6b6b;">0</span>
+        </div>
+      </div>
+
+      <!-- Recent Submissions Overview Table -->
+      <div class="table-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="font-family: var(--display); font-size: 1.8rem;">Recent Submissions</h2>
+          <button class="btn btn-ghost" style="padding: 6px 16px; font-size: 0.72rem;" onclick="document.getElementById('tabSubmissionsBtn').click()">View All →</button>
+        </div>
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Artist</th>
+                <th>Work Title</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="recentSubmissionsBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= SECTION 2: SUBMISSION MANAGEMENT ================= -->
+    <div id="sectionSubmissions" style="display: none;">
+      <div class="table-card">
+        <div class="toolbar-flex">
+          <div class="filter-pills" id="statusFilterPills">
+            <button class="filter-pill active" data-status="ALL">ALL</button>
+            <button class="filter-pill" data-status="PENDING">PENDING</button>
+            <button class="filter-pill" data-status="APPROVED">APPROVED</button>
+            <button class="filter-pill" data-status="REJECTED">REJECTED</button>
+          </div>
+
+          <div class="search-input-wrapper">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="submissionSearchInput" class="form-input" placeholder="Search work or artist...">
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Artist</th>
+                <th>Work Title</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Review Actions</th>
+              </tr>
+            </thead>
+            <tbody id="allSubmissionsBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= SECTION 3: USER MANAGEMENT ================= -->
+    <div id="sectionUsers" style="display: none;">
+      <div class="table-card">
+        <div class="toolbar-flex">
+          <h2 style="font-family: var(--display); font-size: 1.8rem;">Registered Accounts</h2>
+
+          <div class="search-input-wrapper">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="userSearchInput" class="form-input" placeholder="Search user name or email...">
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User Details</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Joined Date</th>
+                <th>Submissions</th>
+                <th>Account Status</th>
+                <th>Manage Role</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Rejection Reason Modal -->
+<div class="modal-overlay" id="rejectionModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 class="modal-title" style="color: #ff6b6b;">Reject Submission</h2>
+      <button class="modal-close-btn" id="closeRejectionModal">&times;</button>
+    </div>
+    <form id="rejectionForm">
+      <input type="hidden" id="rejectionSubId">
+      <div class="form-group">
+        <label class="form-label" for="rejectionReason">Rejection Reason / Admin Notes <span class="req">*</span></label>
+        <textarea id="rejectionReason" class="form-textarea" placeholder="Explain what changes or improvements are needed for approval..." required></textarea>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 14px; margin-top: 24px;">
+        <button type="button" class="btn btn-ghost" id="cancelRejectionBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary" style="background: #ff4d4d; color: #fff;">Reject Submission</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Submission Details Modal -->
+<div class="modal-overlay" id="submissionDetailsModal">
+  <div class="modal-card" style="max-width: 680px;">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modalSubTitle">Work Details</h2>
+      <button class="modal-close-btn" id="closeDetailsModal">&times;</button>
+    </div>
+    <div id="modalDetailsContent">
+      <!-- Populated dynamically -->
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async function(){
+  // Protect Route: Require Admin
+  var currentAdmin = window.PCV_Auth.requireAdmin();
+  if (!currentAdmin) return;
+
+  var tabOverviewBtn = document.getElementById('tabOverviewBtn');
+  var tabSubmissionsBtn = document.getElementById('tabSubmissionsBtn');
+  var tabUsersBtn = document.getElementById('tabUsersBtn');
+
+  var sectionOverview = document.getElementById('sectionOverview');
+  var sectionSubmissions = document.getElementById('sectionSubmissions');
+  var sectionUsers = document.getElementById('sectionUsers');
+
+  var adminAlert = document.getElementById('adminAlert');
+
+  var overviewData = null;
+  var currentStatusFilter = 'ALL';
+
+  function showAlert(msg, type) {
+    adminAlert.className = 'alert-banner ' + (type || 'info');
+    adminAlert.innerHTML = msg;
+    adminAlert.style.display = 'flex';
+    setTimeout(function(){ adminAlert.style.display = 'none'; }, 4000);
+  }
+
+  function switchTab(target) {
+    tabOverviewBtn.classList.remove('active');
+    tabSubmissionsBtn.classList.remove('active');
+    tabUsersBtn.classList.remove('active');
+
+    sectionOverview.style.display = 'none';
+    sectionSubmissions.style.display = 'none';
+    sectionUsers.style.display = 'none';
+
+    if (target === 'submissions') {
+      tabSubmissionsBtn.classList.add('active');
+      sectionSubmissions.style.display = 'block';
+    } else if (target === 'users') {
+      tabUsersBtn.classList.add('active');
+      sectionUsers.style.display = 'block';
+    } else {
+      tabOverviewBtn.classList.add('active');
+      sectionOverview.style.display = 'block';
+    }
+  }
+
+  tabOverviewBtn.addEventListener('click', function(){ switchTab('overview'); });
+  tabSubmissionsBtn.addEventListener('click', function(){ switchTab('submissions'); });
+  tabUsersBtn.addEventListener('click', function(){ switchTab('users'); });
+
+  async function refreshData() {
+    overviewData = await window.PCV_Admin.loadAdminData();
+    if (!overviewData) return;
+
+    // 1. Render Stats
+    document.getElementById('statUsers').textContent = overviewData.stats.totalUsers;
+    document.getElementById('statSubmissions').textContent = overviewData.stats.totalSubmissions;
+    document.getElementById('statPending').textContent = overviewData.stats.pendingCount;
+    document.getElementById('statApproved').textContent = overviewData.stats.approvedCount;
+    document.getElementById('statRejected').textContent = overviewData.stats.rejectedCount;
+
+    // 2. Render Recent Submissions Table (Overview)
+    renderRecentSubmissions(overviewData.submissions.slice(0, 5));
+
+    // 3. Render Submissions Tab
+    renderAllSubmissions();
+
+    // 4. Render Users Tab
+    renderUsers();
+  }
+
+  function getBadgeClass(status) {
+    if (status === 'APPROVED') return 'badge-approved';
+    if (status === 'REJECTED') return 'badge-rejected';
+    return 'badge-pending';
+  }
+
+  function renderRecentSubmissions(subs) {
+    var tbody = document.getElementById('recentSubmissionsBody');
+    tbody.innerHTML = '';
+    if (subs.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--muted);">No submissions found.</td></tr>';
+      return;
+    }
+
+    subs.forEach(function(sub){
+      var d = new Date(sub.created_at).toLocaleDateString();
+      tbody.innerHTML += `
+        <tr>
+          <td><strong>${sub.artist_name || 'Artist'}</strong><br><span style="font-size:0.75rem; color:var(--muted);">${sub.artist_email || ''}</span></td>
+          <td><a href="#" onclick="window.viewSubDetails('${sub.id}'); return false;" style="color:var(--accent); text-decoration:underline;">${sub.title}</a></td>
+          <td><span style="font-family:var(--mono); font-size:0.75rem; color:var(--muted);">${sub.category}</span></td>
+          <td>${d}</td>
+          <td><span class="badge ${getBadgeClass(sub.status)}">${sub.status}</span></td>
+          <td>
+            ${sub.status === 'PENDING' ? `
+              <button class="btn btn-ghost" style="padding:4px 10px; font-size:0.7rem; color:#4dffa6; border-color:rgba(77,255,166,0.3);" onclick="window.handleApprove('${sub.id}')">Approve</button>
+              <button class="btn btn-ghost" style="padding:4px 10px; font-size:0.7rem; color:#ff6b6b; border-color:rgba(255,77,77,0.3);" onclick="window.openRejectModal('${sub.id}')">Reject</button>
+            ` : `<button class="btn btn-ghost" style="padding:4px 10px; font-size:0.7rem;" onclick="window.viewSubDetails('${sub.id}')">View</button>`}
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  function renderAllSubmissions() {
+    var searchVal = document.getElementById('submissionSearchInput').value.toLowerCase().trim();
+    var filtered = overviewData.submissions.filter(function(sub){
+      var matchStatus = (currentStatusFilter === 'ALL' || sub.status === currentStatusFilter);
+      var matchSearch = !searchVal || 
+        sub.title.toLowerCase().includes(searchVal) || 
+        (sub.artist_name && sub.artist_name.toLowerCase().includes(searchVal)) || 
+        (sub.artist_email && sub.artist_email.toLowerCase().includes(searchVal));
+      return matchStatus && matchSearch;
+    });
+
+    var tbody = document.getElementById('allSubmissionsBody');
+    tbody.innerHTML = '';
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--muted); padding:30px;">No matching submissions found.</td></tr>';
+      return;
+    }
+
+    filtered.forEach(function(sub){
+      var d = new Date(sub.created_at).toLocaleDateString();
+      tbody.innerHTML += `
+        <tr>
+          <td><strong>${sub.artist_name || 'Artist'}</strong><br><span style="font-size:0.75rem; color:var(--muted);">${sub.artist_email || ''}</span></td>
+          <td><a href="#" onclick="window.viewSubDetails('${sub.id}'); return false;" style="color:var(--white); font-weight:500;">${sub.title}</a></td>
+          <td><span style="font-family:var(--mono); font-size:0.75rem; color:var(--accent);">${sub.category}</span></td>
+          <td>${d}</td>
+          <td><span class="badge ${getBadgeClass(sub.status)}">${sub.status}</span></td>
+          <td>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-ghost" style="padding:4px 10px; font-size:0.7rem;" onclick="window.viewSubDetails('${sub.id}')">Inspect</button>
+              ${sub.status !== 'APPROVED' ? `<button class="btn btn-ghost" style="padding:4px 10px; font-size:0.7rem; color:#4dffa6; border-color:rgba(77,255,166,0.3);" onclick="window.handleApprove('${sub.id}')">Approve</button>` : ''}
+              ${sub.status !== 'REJECTED' ? `<button class="btn btn-ghost" style="padding:4px 10px; font-size:0.7rem; color:#ff6b6b; border-color:rgba(255,77,77,0.3);" onclick="window.openRejectModal('${sub.id}')">Reject</button>` : ''}
+            </div>
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  function renderUsers() {
+    var searchVal = document.getElementById('userSearchInput').value.toLowerCase().trim();
+    var filtered = overviewData.users.filter(function(u){
+      return !searchVal || u.name.toLowerCase().includes(searchVal) || u.email.toLowerCase().includes(searchVal);
+    });
+
+    var tbody = document.getElementById('usersTableBody');
+    tbody.innerHTML = '';
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--muted); padding:30px;">No matching users found.</td></tr>';
+      return;
+    }
+
+    filtered.forEach(function(u){
+      var d = new Date(u.created_at).toLocaleDateString();
+      var userSubs = overviewData.submissions.filter(function(s){ return s.user_id === u.id; }).length;
+      var roleBadge = u.role === 'admin' ? '<span class="badge badge-admin">Admin</span>' : '<span class="badge badge-user">User</span>';
+      var statusTag = u.is_disabled ? '<span style="color:#ff6b6b; font-size:0.75rem;">Disabled</span>' : '<span style="color:#4dffa6; font-size:0.75rem;">Active</span>';
+
+      tbody.innerHTML += `
+        <tr>
+          <td><strong>${u.name}</strong></td>
+          <td>${u.email}</td>
+          <td>${roleBadge}</td>
+          <td>${d}</td>
+          <td><span style="font-family:var(--mono);">${userSubs}</span></td>
+          <td>${statusTag}</td>
+          <td>
+            <div style="display:flex; gap:6px;">
+              ${u.role === 'user' ? 
+                `<button class="btn btn-ghost" style="padding:4px 10px; font-size:0.7rem; color:#a797ff;" onclick="window.handleRoleChange('${u.id}', 'admin')">Promote Admin</button>` :
+                (u.id !== currentAdmin.id ? `<button class="btn btn-ghost" style="padding:4px 10px; font-size:0.7rem;" onclick="window.handleRoleChange('${u.id}', 'user')">Make User</button>` : `<span style="font-size:0.7rem; color:var(--faint);">Current User</span>`)
+              }
+              ${u.id !== currentAdmin.id ?
+                (u.is_disabled ? 
+                  `<button class="btn btn-ghost" style="padding:4px 10px; font-size:0.7rem; color:#4dffa6;" onclick="window.handleToggleDisabled('${u.id}', false)">Enable</button>` : 
+                  `<button class="btn btn-ghost" style="padding:4px 10px; font-size:0.7rem; color:#ff6b6b;" onclick="window.handleToggleDisabled('${u.id}', true)">Disable</button>`)
+                : ''
+              }
+            </div>
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  // Filter Pill Listeners
+  document.querySelectorAll('#statusFilterPills .filter-pill').forEach(function(pill){
+    pill.addEventListener('click', function(){
+      document.querySelectorAll('#statusFilterPills .filter-pill').forEach(function(p){ p.classList.remove('active'); });
+      pill.classList.add('active');
+      currentStatusFilter = pill.getAttribute('data-status');
+      renderAllSubmissions();
+    });
+  });
+
+  document.getElementById('submissionSearchInput').addEventListener('input', renderAllSubmissions);
+  document.getElementById('userSearchInput').addEventListener('input', renderUsers);
+
+  // Global Action Handlers for inline buttons
+  window.handleApprove = async function(subId) {
+    if (!confirm("Are you sure you want to approve this submission?")) return;
+    var res = await window.PCV_Admin.approveSubmission(subId);
+    if (res.error) {
+      showAlert("⚠ " + res.error, "error");
+    } else {
+      showAlert("✓ Submission approved successfully!", "success");
+      await refreshData();
+    }
+  };
+
+  window.openRejectModal = function(subId) {
+    document.getElementById('rejectionSubId').value = subId;
+    document.getElementById('rejectionReason').value = '';
+    document.getElementById('rejectionModal').classList.add('open');
+  };
+
+  document.getElementById('closeRejectionModal').addEventListener('click', function(){
+    document.getElementById('rejectionModal').classList.remove('open');
+  });
+  document.getElementById('cancelRejectionBtn').addEventListener('click', function(){
+    document.getElementById('rejectionModal').classList.remove('open');
+  });
+
+  document.getElementById('rejectionForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var subId = document.getElementById('rejectionSubId').value;
+    var reason = document.getElementById('rejectionReason').value;
+
+    var res = await window.PCV_Admin.rejectSubmission(subId, reason);
+    if (res.error) {
+      alert(res.error);
+    } else {
+      document.getElementById('rejectionModal').classList.remove('open');
+      showAlert("✓ Submission rejected and feedback note sent to artist.", "success");
+      await refreshData();
+    }
+  });
+
+  window.viewSubDetails = function(subId) {
+    var sub = overviewData.submissions.find(function(s){ return s.id === subId; });
+    if (!sub) return;
+
+    var isVideo = sub.media_url.endsWith('.mp4') || sub.media_url.endsWith('.webm');
+    var mediaHtml = isVideo ?
+      '<video src="' + sub.media_url + '" controls style="width:100%; border-radius:12px; max-height:300px; object-fit:cover;"></video>' :
+      '<img src="' + sub.media_url + '" alt="' + sub.title + '" style="width:100%; border-radius:12px; max-height:300px; object-fit:cover;">';
+
+    document.getElementById('modalSubTitle').textContent = sub.title;
+    document.getElementById('modalDetailsContent').innerHTML = `
+      <div style="margin-bottom: 20px;">${mediaHtml}</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span class="submission-cat">${sub.category}</span>
+        <span class="badge ${getBadgeClass(sub.status)}">${sub.status}</span>
+      </div>
+      <p style="color:var(--white); margin-bottom: 16px;">${sub.description}</p>
+      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--hairline); border-radius:12px; padding:14px; font-size:0.85rem;">
+        <div style="color:var(--accent); font-weight:600;">Artist Info</div>
+        <div>${sub.artist_name || 'Artist'} (${sub.artist_email || 'No email'})</div>
+        <div style="color:var(--muted); font-size:0.75rem; margin-top:4px;">Submitted: ${new Date(sub.created_at).toLocaleString()}</div>
+      </div>
+      ${sub.admin_note ? `
+        <div class="rejection-note-box" style="margin-top:14px;">
+          <div class="rejection-note-title">Admin Feedback Note</div>
+          <div>${sub.admin_note}</div>
+        </div>
+      ` : ''}
+    `;
+
+    document.getElementById('submissionDetailsModal').classList.add('open');
+  };
+
+  document.getElementById('closeDetailsModal').addEventListener('click', function(){
+    document.getElementById('submissionDetailsModal').classList.remove('open');
+  });
+
+  window.handleRoleChange = async function(userId, newRole) {
+    if (!confirm("Are you sure you want to change this user's role to " + newRole.toUpperCase() + "?")) return;
+    var res = await window.PCV_Admin.updateUserRole(userId, newRole);
+    if (res.error) {
+      showAlert("⚠ " + res.error, "error");
+    } else {
+      showAlert("✓ User role updated to " + newRole + ".", "success");
+      await refreshData();
+    }
+  };
+
+  window.handleToggleDisabled = async function(userId, isDisabled) {
+    var actionName = isDisabled ? "disable" : "enable";
+    if (!confirm("Are you sure you want to " + actionName + " this account?")) return;
+    var res = await window.PCV_Admin.toggleUserDisabled(userId, isDisabled);
+    if (res.error) {
+      showAlert("⚠ " + res.error, "error");
+    } else {
+      showAlert("✓ Account status updated.", "success");
+      await refreshData();
+    }
+  };
+
+  // Initial Load
+  await refreshData();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Profile &amp; Submissions — Prime Cine Visuals</title>
+<meta name="description" content="View your artist profile, manage portfolio details, and track artwork submission statuses on Prime Cine Visuals.">
+<meta name="theme-color" content="#050505">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="auth-admin.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/profile.js"></script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<!-- Loader -->
+<div id="loader" role="status" aria-live="polite">
+  <div class="loader-inner">
+    <div class="loader-mark">PRIME<span>·</span>CINE</div>
+    <div class="loader-ring" aria-hidden="true"></div>
+    <div class="loader-pct" id="loaderPct">LOADING 0%</div>
+  </div>
+</div>
+
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<div class="ambient" aria-hidden="true">
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="blob blob-c"></div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+<div class="particles" id="particles" aria-hidden="true"></div>
+
+<!-- Navigation Header -->
+<header id="siteHeader">
+  <a href="index.html" class="logo"><span class="logo-mark" aria-hidden="true"></span>PRIME <span>CINE</span> VISUALS</a>
+  <nav aria-label="Primary">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="index.html#about" class="nav-link">About</a></li>
+      <li><a href="index.html#services" class="nav-link">Services</a></li>
+      <li><a href="services.html" class="nav-link">Pricing</a></li>
+      <li><a href="index.html#work" class="nav-link">Portfolio</a></li>
+      <li><a href="gallery.html" class="nav-link">3D Gallery</a></li>
+      <li><a href="lab.html" class="nav-link">3D Lab</a></li>
+      <li><a href="challenges.html" class="nav-link">Challenges</a></li>
+      <li><a href="hackathons.html" class="nav-link">Hackathons</a></li>
+      <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<main id="main-content" style="padding-top: 130px; padding-bottom: 100px;">
+  <div class="wrap">
+    <!-- Profile Header Card -->
+    <div class="profile-box reveal is-visible">
+      <div class="profile-header-grid">
+        <div class="profile-avatar-wrapper">
+          <div id="avatarContainer">
+            <span id="avatarInitial">A</span>
+          </div>
+        </div>
+        <div>
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <h1 class="profile-title" id="profileName">Artist Name</h1>
+            <span id="roleBadge" class="badge badge-user">User</span>
+          </div>
+          <p class="profile-email" id="profileEmail">artist@primecine.com</p>
+          <p class="profile-bio" id="profileBio">No bio provided yet. Edit your profile to share your creative background.</p>
+          
+          <div class="social-links-row" id="socialRow">
+            <!-- Social handles rendered dynamically -->
+          </div>
+
+          <div style="margin-top: 24px; display: flex; gap: 14px; flex-wrap: wrap;">
+            <button id="editProfileBtn" class="btn btn-ghost magnetic" type="button">
+              <span>Edit Profile</span>
+            </button>
+            <a href="submit.html" class="btn btn-primary magnetic">
+              <span>Submit New Work +</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Artist Submissions Section -->
+    <div style="margin-top: 60px;">
+      <div class="section-head" style="margin-bottom: 30px;">
+        <div>
+          <span class="eyebrow">Portfolio Pipeline</span>
+          <h2 class="section-title">Submitted <span class="hl">Works</span></h2>
+        </div>
+        <p class="section-note">Track submission review statuses: Pending, Approved, or Rejected feedback notes.</p>
+      </div>
+
+      <div id="submissionsContainer" class="submissions-grid">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Edit Profile Modal -->
+<div class="modal-overlay" id="editProfileModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 class="modal-title">Edit Artist Profile</h2>
+      <button class="modal-close-btn" id="closeProfileModal">&times;</button>
+    </div>
+    <form id="editProfileForm">
+      <div id="modalAlert" class="alert-banner" style="display:none;"></div>
+
+      <div class="form-group">
+        <label class="form-label" for="editName">Full Name <span class="req">*</span></label>
+        <input type="text" id="editName" class="form-input" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="editAvatar">Avatar / Profile Image URL</label>
+        <input type="url" id="editAvatar" class="form-input" placeholder="https://example.com/avatar.jpg">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="editBio">Bio / Artist Description</label>
+        <textarea id="editBio" class="form-textarea" placeholder="Share your experience, 3D tools used, and production focus..."></textarea>
+      </div>
+
+      <h3 style="font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 20px 0 12px;">Social Media &amp; Portfolio Handles</h3>
+      <div class="form-group">
+        <label class="form-label" for="editTwitter">Twitter / X</label>
+        <input type="text" id="editTwitter" class="form-input" placeholder="@handle">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="editArtstation">ArtStation</label>
+        <input type="text" id="editArtstation" class="form-input" placeholder="username">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="editWebsite">Portfolio Website URL</label>
+        <input type="url" id="editWebsite" class="form-input" placeholder="https://yourwebsite.com">
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 14px; margin-top: 24px;">
+        <button type="button" class="btn btn-ghost" id="cancelProfileBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="saveProfileBtn">
+          <span>Save Profile</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async function(){
+  // Protected Route Check
+  var currentUser = window.PCV_Auth.requireAuth();
+  if (!currentUser) return;
+
+  var profileName = document.getElementById('profileName');
+  var profileEmail = document.getElementById('profileEmail');
+  var profileBio = document.getElementById('profileBio');
+  var roleBadge = document.getElementById('roleBadge');
+  var socialRow = document.getElementById('socialRow');
+  var avatarContainer = document.getElementById('avatarContainer');
+  var submissionsContainer = document.getElementById('submissionsContainer');
+
+  var editModal = document.getElementById('editProfileModal');
+  var editBtn = document.getElementById('editProfileBtn');
+  var closeBtn = document.getElementById('closeProfileModal');
+  var cancelBtn = document.getElementById('cancelProfileBtn');
+  var editForm = document.getElementById('editProfileForm');
+  var modalAlert = document.getElementById('modalAlert');
+
+  var activeProfile = null;
+
+  async function renderData() {
+    var data = await window.PCV_Profile.loadProfileData(currentUser);
+    if (!data) return;
+
+    activeProfile = data.profile;
+    var subs = data.submissions;
+
+    // Render Avatar
+    if (activeProfile.avatar_url && activeProfile.avatar_url.trim().length > 5) {
+      avatarContainer.innerHTML = '<img src="' + activeProfile.avatar_url + '" alt="' + activeProfile.name + '" class="profile-avatar">';
+    } else {
+      var initial = (activeProfile.name || 'A').charAt(0).toUpperCase();
+      avatarContainer.innerHTML = '<div class="profile-avatar">' + initial + '</div>';
+    }
+
+    profileName.textContent = activeProfile.name || 'Artist';
+    profileEmail.textContent = activeProfile.email;
+    profileBio.textContent = activeProfile.bio || 'No bio provided yet. Click "Edit Profile" to write a bio and add social links.';
+    
+    // Role Badge
+    if (activeProfile.role === 'admin') {
+      roleBadge.className = 'badge badge-admin';
+      roleBadge.textContent = 'Admin';
+    } else {
+      roleBadge.className = 'badge badge-user';
+      roleBadge.textContent = 'Artist';
+    }
+
+    // Social Links
+    socialRow.innerHTML = '';
+    var socials = activeProfile.social_links || {};
+    if (socials.twitter) {
+      socialRow.innerHTML += '<a href="https://twitter.com/' + socials.twitter.replace('@','') + '" target="_blank" rel="noopener" class="social-link-btn">Twitter ' + socials.twitter + '</a>';
+    }
+    if (socials.artstation) {
+      socialRow.innerHTML += '<a href="https://artstation.com/' + socials.artstation + '" target="_blank" rel="noopener" class="social-link-btn">ArtStation ↗</a>';
+    }
+    if (socials.website) {
+      socialRow.innerHTML += '<a href="' + socials.website + '" target="_blank" rel="noopener" class="social-link-btn">Website ↗</a>';
+    }
+
+    // Render Submissions List
+    submissionsContainer.innerHTML = '';
+
+    if (subs.length === 0) {
+      submissionsContainer.innerHTML = '<div class="glass-card" style="grid-column: 1 / -1; text-align: center; padding: 50px;"><p style="color: var(--muted); margin-bottom: 20px;">You haven\'t submitted any visual works yet.</p><a href="submit.html" class="btn btn-primary">Submit Your First Work +</a></div>';
+      return;
+    }
+
+    subs.forEach(function(sub){
+      var statusBadgeClass = 'badge-pending';
+      if (sub.status === 'APPROVED') statusBadgeClass = 'badge-approved';
+      if (sub.status === 'REJECTED') statusBadgeClass = 'badge-rejected';
+
+      var isVideo = sub.media_url.endsWith('.mp4') || sub.media_url.endsWith('.webm');
+      var mediaHtml = isVideo ?
+        '<video src="' + sub.media_url + '" muted loop playsinline onmouseenter="this.play()" onmouseleave="this.pause()"></video>' :
+        '<img src="' + sub.media_url + '" alt="' + sub.title + '" onerror="this.src=\'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80\'">';
+
+      var cardHtml = `
+        <div class="submission-card">
+          <div class="submission-media-preview">
+            ${mediaHtml}
+          </div>
+          <div class="submission-content">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+              <span class="submission-cat">${sub.category}</span>
+              <span class="badge ${statusBadgeClass}">${sub.status}</span>
+            </div>
+            <h3 class="submission-title">${sub.title}</h3>
+            <p class="submission-desc">${sub.description}</p>
+            ${sub.status === 'REJECTED' && sub.admin_note ? `
+              <div class="rejection-note-box">
+                <div class="rejection-note-title">⚠ Admin Review Feedback</div>
+                <div>${sub.admin_note}</div>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+
+      submissionsContainer.innerHTML += cardHtml;
+    });
+  }
+
+  await renderData();
+
+  // Modal Dialog Events
+  function openModal() {
+    if (!activeProfile) return;
+    document.getElementById('editName').value = activeProfile.name || '';
+    document.getElementById('editAvatar').value = activeProfile.avatar_url || '';
+    document.getElementById('editBio').value = activeProfile.bio || '';
+
+    var socials = activeProfile.social_links || {};
+    document.getElementById('editTwitter').value = socials.twitter || '';
+    document.getElementById('editArtstation').value = socials.artstation || '';
+    document.getElementById('editWebsite').value = socials.website || '';
+
+    modalAlert.style.display = 'none';
+    editModal.classList.add('open');
+  }
+
+  function closeModal() {
+    editModal.classList.remove('open');
+  }
+
+  editBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  cancelBtn.addEventListener('click', closeModal);
+
+  editForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    modalAlert.style.display = 'none';
+
+    var name = document.getElementById('editName').value;
+    var avatar = document.getElementById('editAvatar').value;
+    var bio = document.getElementById('editBio').value;
+
+    var socialObj = {
+      twitter: document.getElementById('editTwitter').value.trim(),
+      artstation: document.getElementById('editArtstation').value.trim(),
+      website: document.getElementById('editWebsite').value.trim()
+    };
+
+    var saveBtn = document.getElementById('saveProfileBtn');
+    saveBtn.disabled = true;
+
+    var res = await window.PCV_Profile.updateProfile(activeProfile.id, name, avatar, bio, socialObj);
+    saveBtn.disabled = false;
+
+    if (res.error) {
+      modalAlert.className = 'alert-banner error';
+      modalAlert.textContent = res.error;
+      modalAlert.style.display = 'block';
+    } else {
+      closeModal();
+      await renderData();
+    }
+  });
+});
+</script>
+</body>
+</html>
