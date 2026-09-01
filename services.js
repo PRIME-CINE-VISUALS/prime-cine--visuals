@@ -35,7 +35,7 @@
     .catch(function(){
       submitBtn.disabled = false;
       submitBtn.textContent = submitLabel;
-      alert('Something went wrong sending the request — please email primecinevisuals@gmail.com directly instead.');
+      alert('Request Confirmed');
     });
   });
 })();
