@@ -32,6 +32,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/submissions.js"></script>
   <script src="js/nav.js"></script>
 </head>
 
@@ -449,6 +450,67 @@
 
   </div>
 
+
+  <!-- =====================================================
+       ADD ARTWORK MODAL
+       ===================================================== -->
+  <div class="modal-overlay" id="addArtworkModal" aria-hidden="true">
+    <div class="modal-backdrop" id="addModalBackdrop" style="position: absolute; inset: 0;"></div>
+    <div class="modal-card" style="max-width: 580px; z-index: 10001; position: relative;">
+      <div class="modal-header">
+        <h2 class="modal-title">Submit Artwork to Gallery</h2>
+        <button class="modal-close-btn" id="addModalClose" type="button">&times;</button>
+      </div>
+      <form id="addArtworkForm" novalidate>
+        <div id="addModalAlert" class="alert-banner" style="display:none;" role="alert"></div>
+
+        <div class="form-group">
+          <label class="form-label" for="newTitle">Artwork Title <span class="req">*</span></label>
+          <input type="text" id="newTitle" class="form-input" placeholder="e.g. Cybernetic Perfume" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newArtist">Artist Name <span class="req">*</span></label>
+          <input type="text" id="newArtist" class="form-input" placeholder="Your name" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newCategory">Category / Tag <span class="req">*</span></label>
+          <select id="newCategory" class="form-select" required>
+            <option value="cgi">CGI</option>
+            <option value="vfx">VFX</option>
+            <option value="blender">Blender</option>
+            <option value="unreal">Unreal</option>
+            <option value="motion">Motion Design</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newSoftware">Software Used</label>
+          <input type="text" id="newSoftware" class="form-input" placeholder="e.g. Blender, Cinema 4D, Unreal Engine">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newImage">Artwork Image / Media <span class="req">*</span></label>
+          <input type="file" id="newImage" class="form-input" accept="image/*,video/*" style="margin-bottom: 8px;">
+          <span style="font-size: 0.72rem; color: var(--muted); text-align: center; display: block; margin: 4px 0;">— OR PASTE MEDIA URL —</span>
+          <input type="url" id="newImageUrl" class="form-input" placeholder="https://example.com/artwork.jpg or .mp4">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newDescription">Description</label>
+          <textarea id="newDescription" class="form-textarea" placeholder="Describe your concept, rendering details and lighting..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 14px; justify-content: flex-end; margin-top: 24px;">
+          <button type="button" class="btn btn-ghost" id="cancelAddModal">Cancel</button>
+          <button type="submit" class="btn btn-primary magnetic" id="submitAddArtworkBtn">
+            <span>Add Artwork →</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer>

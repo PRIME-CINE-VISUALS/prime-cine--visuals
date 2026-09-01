@@ -190,15 +190,28 @@ const btnAddArtwork = document.getElementById("btnAddArtwork");
 const addArtworkModal = document.getElementById("addArtworkModal");
 const addModalBackdrop = document.getElementById("addModalBackdrop");
 const addModalClose = document.getElementById("addModalClose");
+const cancelAddModal = document.getElementById("cancelAddModal");
 const addArtworkForm = document.getElementById("addArtworkForm");
 
 function openAddModal() {
+  if (!addArtworkModal) return;
+
+  // Auto fill artist name if user is logged in
+  if (window.PCV_Auth && window.PCV_Auth.getCurrentUser()) {
+    const user = window.PCV_Auth.getCurrentUser();
+    const artistInput = document.getElementById("newArtist");
+    if (artistInput && !artistInput.value) {
+      artistInput.value = user.name || user.email.split('@')[0];
+    }
+  }
+
   addArtworkModal.classList.add("open");
   addArtworkModal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden"; // Prevent scrolling
 }
 
 function closeAddModal() {
+  if (!addArtworkModal) return;
   addArtworkModal.classList.remove("open");
   addArtworkModal.setAttribute("aria-hidden", "true");
   document.body.style.overflow = ""; // Restore scrolling
@@ -213,59 +226,98 @@ if (addModalBackdrop) {
 if (addModalClose) {
   addModalClose.addEventListener("click", closeAddModal);
 }
+if (cancelAddModal) {
+  cancelAddModal.addEventListener("click", closeAddModal);
+}
 
 if (addArtworkForm) {
   addArtworkForm.addEventListener("submit", function(e) {
     e.preventDefault();
-    
+
     const fileInput = document.getElementById("newImage");
-    if (!fileInput.files || fileInput.files.length === 0) return;
-    
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-    
-    reader.onload = function(event) {
-      const base64Image = event.target.result;
-      const artist = document.getElementById("newArtist").value;
-      const initials = artist.substring(0, 2).toUpperCase();
-      const catVal = document.getElementById("newCategory").value;
-      const catLabel = document.getElementById("newCategory").options[document.getElementById("newCategory").selectedIndex].text;
-      
+    const urlInput = document.getElementById("newImageUrl");
+    const titleVal = document.getElementById("newTitle").value.trim();
+    const artistVal = document.getElementById("newArtist").value.trim();
+    const catVal = document.getElementById("newCategory").value;
+    const catSelect = document.getElementById("newCategory");
+    const catLabel = catSelect ? catSelect.options[catSelect.selectedIndex].text : catVal.toUpperCase();
+    const softwareVal = document.getElementById("newSoftware") ? document.getElementById("newSoftware").value.trim() : "";
+    const descVal = document.getElementById("newDescription") ? document.getElementById("newDescription").value.trim() : "";
+
+    const addAlert = document.getElementById("addModalAlert");
+
+    function processAndSave(imageSource) {
+      const initials = (artistVal || "Artist").substring(0, 2).toUpperCase();
       const newArtwork = {
-        id: Date.now(), // Generate unique ID
-        title: document.getElementById("newTitle").value,
-        artist: artist,
+        id: Date.now(),
+        title: titleVal || "Untitled Work",
+        artist: artistVal || "Anonymous",
         initials: initials,
         category: catVal,
         categoryLabel: catLabel,
-        software: document.getElementById("newSoftware").value,
-        image: base64Image,
-        description: document.getElementById("newDescription").value,
+        software: softwareVal || "Blender",
+        image: imageSource,
+        description: descVal || "Community 3D visual creation.",
         upvotes: 0,
         downvotes: 0,
         createdAt: Date.now()
       };
-      
-      // Save and update
+
+      // Save locally for instant gallery rendering
       customArtworks.push(newArtwork);
       allArtworks = [...galleryArtworks, ...customArtworks];
       localStorage.setItem('pcv_custom_artworks', JSON.stringify(customArtworks));
-      
-      // Reset form and close
+
+      // Also register via PCV_Submissions if user is logged in
+      if (window.PCV_Submissions && window.PCV_Auth && window.PCV_Auth.getCurrentUser()) {
+        var catMapping = {
+          "cgi": "CGI Commercial",
+          "vfx": "Visual Effects",
+          "blender": "3D Animation",
+          "unreal": "Interactive Experience",
+          "motion": "Motion Design"
+        };
+        window.PCV_Submissions.createSubmission(
+          titleVal,
+          descVal || "Submitted via 3D Gallery",
+          catMapping[catVal] || "3D Animation",
+          imageSource
+        );
+      }
+
+      // Reset form & close modal
       addArtworkForm.reset();
+      if (addAlert) addAlert.style.display = "none";
       closeAddModal();
-      
-      // Re-render
+
+      // Re-render gallery grid
       renderGallery();
-      
-      // Show cursor again (cleanup if modal messed it up)
+
+      // Reset custom cursor
       const dot = document.getElementById("cursorDot");
       const ring = document.querySelector(".cursor-ring");
       if (dot) dot.classList.remove("cursor-active");
       if (ring) ring.classList.remove("cursor-ring-active");
-    };
-    
-    reader.readAsDataURL(file);
+    }
+
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        processAndSave(event.target.result);
+      };
+      reader.readAsDataURL(file);
+    } else if (urlInput && urlInput.value.trim().length > 5) {
+      processAndSave(urlInput.value.trim());
+    } else {
+      if (addAlert) {
+        addAlert.className = "alert-banner error";
+        addAlert.innerHTML = "⚠ Please upload an image file or enter an image/video URL.";
+        addAlert.style.display = "flex";
+      } else {
+        alert("Please upload an image file or enter an image/video URL.");
+      }
+    }
   });
 }
 
