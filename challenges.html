@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Challenges — Prime Cine Visuals</title>
+<meta name="description" content="Hands-on 3D and CGI challenges from Prime Cine Visuals — lighting, materials, motion and FX drills.">
+<meta name="theme-color" content="#050505">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="auth-admin.css">
+
+<!-- Supabase SDK CDN & Auth Controllers -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/nav.js"></script>
+</head>
+<body>
+
+<a href="#challenges-home" class="skip-link">Skip to content</a>
+
+<!-- LOADING SCREEN -->
+<div id="loader" role="status" aria-live="polite">
+  <div class="loader-inner">
+    <div class="loader-mark">PRIME<span>·</span>CINE</div>
+    <div class="loader-ring" aria-hidden="true"></div>
+    <div class="loader-pct" id="loaderPct">LOADING 0%</div>
+  </div>
+</div>
+
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<div class="ambient" aria-hidden="true">
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="blob blob-c"></div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+<div class="particles" id="particles" aria-hidden="true"></div>
+
+<!-- NAVIGATION -->
+<header id="siteHeader">
+  <a href="index.html" class="logo"><span class="logo-mark" aria-hidden="true"></span>PRIME <span>CINE</span> VISUALS</a>
+  <nav aria-label="Primary">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="index.html#about" class="nav-link">About</a></li>
+      <li><a href="index.html#services" class="nav-link">Services</a></li>
+      <li><a href="services.html" class="nav-link">Pricing</a></li>
+      <li><a href="index.html#work" class="nav-link">Portfolio</a></li>
+      <li><a href="gallery.html" class="nav-link">3D Gallery</a></li>
+      <li><a href="lab.html" class="nav-link">3D Lab</a></li>
+      <li><a href="challenges.html" class="nav-link active">Challenges</a></li>
+      <li><a href="hackathons.html" class="nav-link">Hackathons</a></li>
+      <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<main>
+<!--// this is the line of codes-->
+  <section class="page-hero" id="challenges-home">
+    <div class="wrap">
+      <span class="eyebrow reveal">Skill drills</span>
+      <h1 class="section-title reveal reveal-delay-1">3D <span class="hl">Challenges</span></h1>
+      <p class="page-hero-desc reveal reveal-delay-2">Short, scoped briefs pulled straight from the Lab. Pick a level, read the brief, build it, compare it against the studio bar.</p>
+    </div>
+  </section>
+
+  <!-- CHALLENGES GRID -->
+  <section>
+    <div class="wrap">
+      <div class="challenges-grid">
+
+        <article class="glass-card challenge-card reveal reveal-delay-1">
+          <div class="challenge-top">
+            <div>
+              <span class="challenge-num">01</span>
+              <h3 class="card-title">Hero Prop Turntable</h3>
+            </div>
+            <span class="chip chip-beginner">Beginner</span>
+          </div>
+          <div class="challenge-tags">
+            <span class="challenge-tag">Lighting</span>
+            <span class="challenge-tag">Rendering</span>
+          </div>
+          <button class="challenge-toggle" type="button" aria-expanded="false">
+            <span class="challenge-toggle-label">View Brief</span>
+            <span class="challenge-toggle-arrow" aria-hidden="true">↓</span>
+          </button>
+          <p class="challenge-brief">Light and render a single hero product as a clean 360° turntable. Three-point lighting minimum, one HDRI environment, 4-second loop. Judged on shading accuracy and consistency across the full rotation.</p>
+        </article>
+
+        <article class="glass-card challenge-card reveal reveal-delay-2">
+          <div class="challenge-top">
+            <div>
+              <span class="challenge-num">02</span>
+              <h3 class="card-title">Material Study: Metal vs Glass</h3>
+            </div>
+            <span class="chip chip-beginner">Beginner</span>
+          </div>
+          <div class="challenge-tags">
+            <span class="challenge-tag">Materials</span>
+            <span class="challenge-tag">Shading</span>
+          </div>
+          <button class="challenge-toggle" type="button" aria-expanded="false">
+            <span class="challenge-toggle-label">View Brief</span>
+            <span class="challenge-toggle-arrow" aria-hidden="true">↓</span>
+          </button>
+          <p class="challenge-brief">Build two matching props side by side — one brushed metal, one frosted glass — under identical lighting. The goal is to sell the material difference through shading alone, no textures required.</p>
+        </article>
+
+        <article class="glass-card challenge-card reveal reveal-delay-3">
+          <div class="challenge-top">
+            <div>
+              <span class="challenge-num">03</span>
+              <h3 class="card-title">Cinematic Product Reveal</h3>
+            </div>
+            <span class="chip chip-intermediate">Intermediate</span>
+          </div>
+          <div class="challenge-tags">
+            <span class="challenge-tag">Camera</span>
+            <span class="challenge-tag">Motion</span>
+            <span class="challenge-tag">Lighting</span>
+          </div>
+          <button class="challenge-toggle" type="button" aria-expanded="false">
+            <span class="challenge-toggle-label">View Brief</span>
+            <span class="challenge-toggle-arrow" aria-hidden="true">↓</span>
+          </button>
+          <p class="challenge-brief">A 6–10 second camera move that reveals a product from darkness into full light. Focus on pacing and the choreography between the camera and the lighting change — the product should feel like the hero of the shot.</p>
+        </article>
+
+        <article class="glass-card challenge-card reveal reveal-delay-1">
+          <div class="challenge-top">
+            <div>
+              <span class="challenge-num">04</span>
+              <h3 class="card-title">Procedural Environment Blockout</h3>
+            </div>
+            <span class="chip chip-intermediate">Intermediate</span>
+          </div>
+          <div class="challenge-tags">
+            <span class="challenge-tag">Environment</span>
+            <span class="challenge-tag">Procedural</span>
+          </div>
+          <button class="challenge-toggle" type="button" aria-expanded="false">
+            <span class="challenge-toggle-label">View Brief</span>
+            <span class="challenge-toggle-arrow" aria-hidden="true">↓</span>
+          </button>
+          <p class="challenge-brief">Block out a small environment (a room or a street corner) using procedural or modular pieces only — no hand-sculpted hero assets. Judged on read and composition from a single fixed camera angle.</p>
+        </article>
+
+        <article class="glass-card challenge-card reveal reveal-delay-2">
+          <div class="challenge-top">
+            <div>
+              <span class="challenge-num">05</span>
+              <h3 class="card-title">Character Lighting Pass</h3>
+            </div>
+            <span class="chip chip-advanced">Advanced</span>
+          </div>
+          <div class="challenge-tags">
+            <span class="challenge-tag">Lighting</span>
+            <span class="challenge-tag">Character</span>
+          </div>
+          <button class="challenge-toggle" type="button" aria-expanded="false">
+            <span class="challenge-toggle-label">View Brief</span>
+            <span class="challenge-toggle-arrow" aria-hidden="true">↓</span>
+          </button>
+          <p class="challenge-brief">Given a pre-built character model, deliver a full lighting pass across three moods: neutral, dramatic, and warm/inviting. Same camera angle for all three — the lighting alone should carry the emotional shift.</p>
+        </article>
+
+        <article class="glass-card challenge-card reveal reveal-delay-3">
+          <div class="challenge-top">
+            <div>
+              <span class="challenge-num">06</span>
+              <h3 class="card-title">Real-Time Showreel Cut</h3>
+            </div>
+            <span class="chip chip-advanced">Advanced</span>
+          </div>
+          <div class="challenge-tags">
+            <span class="challenge-tag">Editing</span>
+            <span class="challenge-tag">Motion</span>
+            <span class="challenge-tag">Sound</span>
+          </div>
+          <button class="challenge-toggle" type="button" aria-expanded="false">
+            <span class="challenge-toggle-label">View Brief</span>
+            <span class="challenge-toggle-arrow" aria-hidden="true">↓</span>
+          </button>
+          <p class="challenge-brief">Cut a 15–20 second showreel from raw real-time renders (yours or provided). Pacing, music sync and a strong final frame are the bar — this challenge is entirely about the edit, not the render.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="wrap">
+      <p class="eyebrow center reveal">Built something?</p>
+      <h2 class="cta-title reveal reveal-delay-1">Show Us the <span class="hl">Result</span></h2>
+      <p class="cta-text reveal reveal-delay-2">Send it over — strong submissions get featured back in the Lab.</p>
+      <div class="cta-actions reveal reveal-delay-3">
+        <a href="mailto:primecinevisuals@gmail.com" class="btn btn-primary magnetic email-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M4 4h16v16H4V4z"/>
+            <path d="M4 6l8 7 8-7"/>
+          </svg>
+          <span>primecinevisuals@gmail.com</span>
+        </a>
+        <a href="lab.html" class="btn btn-ghost magnetic">Back to the Lab</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">PRIME <span>CINE</span> VISUALS</div>
+        <p class="footer-desc">A real-time production studio crafting CGI advertisements and visual effects for brands that refuse to look ordinary.</p>
+        <div class="social-row">
+          <a href="#" class="social-icon" aria-label="Instagram">IG</a>
+          <a href="#" class="social-icon" aria-label="X / Twitter">X</a>
+          <a href="#" class="social-icon" aria-label="YouTube">YT</a>
+          <a href="#" class="social-icon" aria-label="LinkedIn">IN</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Pricing</a></li>
+          <li><a href="gallery.html">3D Gallery</a></li>
+          <li><a href="lab.html">3D Lab</a></li>
+          <li><a href="challenges.html">Challenges</a></li>
+          <li><a href="hackathons.html">Hackathons</a></li>
+          <li><a href="index.html#work">Portfolio</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="index.html#services">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 PRIME CINE VISUALS — All Rights Reserved.</span>
+      <span>Designed &amp; Built In-House</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js" defer></script>
+<script src="lab.js" defer></script>
+</body>
+</html>
