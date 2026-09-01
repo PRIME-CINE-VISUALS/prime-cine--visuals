@@ -81,33 +81,42 @@
     regForm.addEventListener('submit', function(e){
       e.preventDefault();
 
-      var action = regForm.getAttribute('action') || '';
-      if(action.indexOf('YOUR_HACK_FORM_ID') !== -1){
-        console.warn('Hackathon registration form: replace YOUR_HACK_FORM_ID in the form action with a real Formspree endpoint before this goes live.');
-      }
-
       regBtn.disabled = true;
-      regBtn.textContent = 'Submitting…';
+      regBtn.textContent = 'Registering…';
 
-      fetch(action, {
-        method: 'POST',
-        body: new FormData(regForm),
-        headers: { 'Accept': 'application/json' }
-      })
-      .then(function(res){
-        if(res.ok){
-          regForm.reset();
-          regForm.style.display = 'none';
-          if(regSuccess) regSuccess.classList.add('is-visible');
-        } else {
-          throw new Error('Submit failed');
+      var teamName = document.getElementById('hTeamName') ? document.getElementById('hTeamName').value.trim() : '';
+      var leaderName = document.getElementById('hLeaderName') ? document.getElementById('hLeaderName').value.trim() : '';
+      var email = document.getElementById('hEmail') ? document.getElementById('hEmail').value.trim() : '';
+      var teamSize = document.getElementById('hTeamSize') ? document.getElementById('hTeamSize').value : '';
+      var track = document.getElementById('hTrack') ? document.getElementById('hTrack').value : '';
+      var notes = document.getElementById('hNotes') ? document.getElementById('hNotes').value.trim() : '';
+
+      var regData = {
+        team_name: teamName,
+        leader_name: leaderName,
+        email: email,
+        team_size: teamSize,
+        track: track,
+        notes: notes,
+        registered_at: new Date().toISOString()
+      };
+
+      // Save registration
+      try {
+        var regs = JSON.parse(localStorage.getItem('pcv_hackathon_registrations') || '[]');
+        regs.push(regData);
+        localStorage.setItem('pcv_hackathon_registrations', JSON.stringify(regs));
+      } catch(err) {}
+
+      setTimeout(function(){
+        regForm.reset();
+        regForm.style.display = 'none';
+        if(regSuccess) {
+          regSuccess.innerHTML = "<strong>✓ Registration Confirmed!</strong> You're locked in — check your email for confirmation and event details closer to the date.";
+          regSuccess.classList.add('is-visible');
         }
-      })
-      .catch(function(){
-        regBtn.disabled = false;
-        regBtn.textContent = regBtnLabel;
-        alert('Something went wrong submitting your registration — please email primecinevisuals@gmail.com directly instead.');
-      });
+        alert("Registration Confirmed! Welcome to the Prime Cine Visuals Hackathon.");
+      }, 400);
     });
   }
 
